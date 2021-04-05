@@ -1,20 +1,20 @@
 {
   "author": "Jérémy BAUCHEREL <jeremy.baucherel@free.fr",
   "dependencies": {
-    "@types/react": "^16.3.13",
-    "@types/react-dom": "^16.0.5",
+    "@types/react": "^16.14.5",
+    "@types/react-dom": "^16.9.12",
     "@types/react-redux": "^6.0.0",
     "@types/react-router": "^4.0.25",
-    "@types/react-router-dom": "^4.2.6",
+    "@types/react-router-dom": "^4.3.5",
     "postcss": "^6.0.22",
-    "react": "^16.3.2",
+    "react": "^16.14.0",
     "react-dom": "16.3.2",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2"
   },
   "description": "Application Tool Kit - React components for web UIs",
   "devDependencies": {
-    "parcel-bundler": "^1.8.1",
+    "parcel-bundler": "^1.12.5",
     "postcss": "^6.0.22",
     "raw": "^0.1.4",
     "typescript": "^2.8.3"
