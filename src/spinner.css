@@ -1,0 +1,26 @@
+.stk-spinner {
+    stroke-width:8;
+    animation: stk-spinner-rotate 600ms linear infinite;
+}
+
+.stk-spinner-track {
+    fill:none;
+    stroke:#a3c8ed;
+}
+
+.stk-spinner-slug {
+    stroke:#1976d2;
+    stroke-linecap:round;
+    fill:none;
+    
+}
+
+@keyframes stk-spinner-rotate { 
+    from { 
+        transform: rotate(0deg); 
+        transform-origin:50% 50%;
+    } to { 
+        transform: rotate(1turn);
+        transform-origin:50% 50%;
+    }
+}

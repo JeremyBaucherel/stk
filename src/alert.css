@@ -1,0 +1,34 @@
+.stk-alertbox {
+	padding:0;
+	margin:0;
+	flex:1 1 auto;
+	display:flex;
+	flex-direction:column;
+	align-items: top;
+	border-radius:4px;
+	font-size:1em;
+	text-align:center;
+}
+
+.stk-alertbox  h2 {
+	font-size:2.5em;
+	margin:0 0 20px 0;
+	color:#333333;
+}
+
+.stk-alertbox p {
+	margin:0 0 20px 0;
+}
+
+.stk-alertbox-icon {
+	padding:0;
+	flex: 0 0 auto;
+	font-size:10em;
+}
+
+.stk-alertbox-body {
+	padding: 15px 20px 15px 20px;
+	flex: 1 1 auto;
+	font-size:1em;
+	color:#888888;
+}

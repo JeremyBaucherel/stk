@@ -1,0 +1,39 @@
+.stk-tag {
+    font-size: 0.8em;    
+    text-transform: uppercase;
+}
+
+.stk-tag-label {
+    border: 1px solid #CACACA;
+    border-radius: 3px;
+    padding: 0 0.5em 0 0.5em;
+}
+
+.stk-tag-label:not(:only-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.stk-tag-clickable {
+    cursor:pointer;
+}
+
+.stk-tag-clickable .stk-tag-label:hover {
+    background:#E9E9E9;
+}
+
+.stk-tag-list .stk-tag {
+    margin:0 2px 0 2px;
+}
+
+.stk-tag-remove-button {
+    border: 1px solid #CACACA;
+    border-left:none;
+    border-radius: 0 3px 3px 0;
+    padding: 0 0.5em 0 0.5em;
+    cursor:pointer;
+}
+
+.stk-tag-remove-button:hover {
+    background:#E9E9E9;
+}

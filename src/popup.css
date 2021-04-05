@@ -1,0 +1,141 @@
+.stk-popup {
+	margin:10px;
+	padding:0;
+	background:#FFFFFF;
+	min-width:400px;
+	z-index:300;
+	opacity:0;
+	width:auto;
+	height:auto;
+	transition:opacity 80ms ease-out;
+	box-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+	overflow-y:hidden;
+	display:flex;
+	flex-direction:column;
+	border-radius:2px;
+}
+
+.stk-popup-appear {
+	opacity:0;
+}
+
+.stk-popup-appear-active {
+	opacity:1;
+}
+
+.stk-popup-leave {
+	opacity:1;
+}
+
+.stk-popup-leave-active {
+	opacity:0;
+	transition:opacity 80ms ease-out;
+}
+
+.stk-popup-heading {
+	font-size:1.2em;
+	padding:10px;
+	margin:0;
+	font-weight:bold;
+	display:flex;
+	flex-grow:0;
+	flex-shrink:0;
+	position:relative;
+	box-sizing: border-box;
+	align-items:center;
+	padding:10px 5px 10px 5px;
+	font-size:1.2em;
+	font-weight:normal;
+	display:flex;
+	align-items: center;
+	color:#000000;
+	background:#FAFAFA;
+	margin:0;
+}
+
+.stk-popup-heading > *:first-child {
+	flex-grow:1;
+}
+
+.stk-popup-heading > *:not(:first-child) {
+	flex-grow:0;
+}
+
+.stk-popup-heading h2 {
+	padding:0;
+	margin:0;
+	font-size:1em;
+	font-size:1.2em;
+	margin:0;
+	font-weight:500;
+	vertical-align:top;
+	flex-grow:1;
+	display:inline-block;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	padding:0.5em;
+	border-top:1px transparent;
+	border-bottom:1px transparent;
+}
+.stk-popup-heading h2 strong {
+	font-weight:normal;
+}
+
+.stk-popup-body {
+	margin:0;
+	flex-grow:1;
+	display:flex;
+	flex-direction:column;
+}
+
+.stk-popup-body-noborders {
+	padding:0;
+}
+
+.stk-popup-body-row {
+	display:flex;
+	flex-direction:row;
+}
+
+.stk-popup-body-row > * {
+
+	margin-left:15px;
+	display:flex;
+	flex-direction:column;
+}
+
+.stk-popup-body-row > *:first-child {
+	margin-left:0;
+}
+
+.stk-popup-footer {
+	padding:10px;
+	margin:0;
+	text-align:right;
+	font-size:1em;
+	flex-shrink:0;
+	border-top:1px solid #DDDDDD;
+	background:#F9F9F9;
+	border-bottom-left-radius:3px;
+	border-bottom-right-radius:3px;
+	display:flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.stk-popup-blanket {
+	background:rgba(0, 0, 0, 0.6);
+	position:fixed;
+	top:0;
+	left:0;
+	width:100vw;
+	height:100vh;
+	margin:0;
+	padding:0;
+	z-index:199;
+	vertical-align:middle;
+	display:flex;
+	align-items: center;
+	justify-content: center;
+}

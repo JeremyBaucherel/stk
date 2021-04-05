@@ -1,0 +1,36 @@
+.stk-spreadsheet {
+    border:1px solid #DADADA;
+    background:#F0F0F0;
+    overflow-y: auto;
+    box-sizing: border-box;
+    width:100%;
+}
+
+.stk-spreadsheet-columns {
+    display:flex;
+    position:sticky;
+    top:0;
+}
+
+.stk-spreadsheet-column {
+    border-bottom:1px solid #EAEAEA;
+    border-right:1px solid #EAEAEA;
+    background:#F5F5F5;
+    padding:8px 5px 8px 5px;
+    text-transform:uppercase;
+    font-weight: bold;
+}
+
+.stk-spreadsheet-cell {
+    border-bottom:1px solid #EAEAEA;
+    border-right:1px solid #EAEAEA;
+    background:#FFFFFF;
+    padding:3px 5px 3px 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.stk-spreadsheet-row {
+    display:flex;
+}

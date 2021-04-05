@@ -1,0 +1,207 @@
+
+.stk-button {
+	font-weight:normal;
+	font-size:1em;
+	padding:0 8px 0 8px;
+	height:2.7em;
+	text-decoration:none;
+	cursor:pointer;	
+	margin:0 5px 0 5px;
+	user-select: none;
+	vertical-align:middle;	
+	display:inline-block;
+    border:0;
+	border-radius:4px;
+	text-align:center;
+	white-space:nowrap;	
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+	user-select: none;
+	font-family: Roboto, Arial;
+	outline:0;
+	display:inline-flex;
+	align-items:center;
+	justify-content: center;
+	box-sizing: border-box;
+}
+
+.stk-button:first-child {
+	margin-left: 0;
+}
+
+.stk-button:last-child {
+	margin-right: 0;
+}
+
+.stk-button * {
+	cursor:pointer;	
+}
+
+.stk-button-icon {
+	font-size:1.7em;
+	cursor:pointer;
+	padding:0;
+}
+
+.stk-button-icon:after {
+	content: ' ';
+}
+.stk-button-icon:last-child {
+	padding:0;
+	cursor:pointer;
+}
+
+.stk-button-primary, .stk-button-primary:visited {
+	color:#FFFFFF;
+	background:#1976D2;
+	border:1px solid #145ea8;
+	box-shadow:0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.stk-button-primary:hover:not(.stk-button-disabled) {
+	background:#2f83d6;
+	color:#FFFFFF;
+	text-decoration:none;
+	border:1px solid #145ea8;
+}
+
+.stk-button-primary:active:not(.stk-button-disabled) {
+	background:#1976D2;
+}
+
+.stk-button-caution, .stk-button-caution:visited {
+	color:#FFFFFF;
+	background:#d9534f;	
+	border: 1px solid #ad423f;
+}
+
+.stk-button-caution:hover {
+	color:#FFFFFF;
+	text-decoration:none;
+	text-decoration:none;
+	box-shadow:0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.stk-button-secondary, .stk-button-secondary:visited {
+	border: 1px solid #DDDDDD;
+	color:#222222;	
+	background:#ffffff;
+	box-shadow:0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.stk-button-secondary:hover:not(.stk-button-disabled):not(.stk-loading) {
+	color:#222222;
+	border: 1px solid #CDCDCD;
+	text-decoration:none;
+}
+
+.stk-button-secondary:active, .stk-button-secondary.active {
+	border: 1px solid #D0D0D0;
+	color:#222222;
+	background:#F0F0F0;
+	text-decoration:none;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
+}
+
+.stk-button-flat, .stk-button-flat:visited {
+	color:#222222;
+	border: 1px solid rgba(255, 255, 255, 0);
+	background: rgba(255, 255, 255, 0);
+}
+
+.stk-button-flat:hover:not(.stk-button-disabled):not(.stk-loading) {
+	color:#222222;
+	border: 1px solid #CDCDCD;
+	text-decoration:none;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
+	background:#ffffff;
+}
+
+.stk-button-flat:active, .stk-button-flat.active {
+	border: 1px solid #D0D0D0;
+	color:#222222;
+	background:#F0F0F0;
+	text-decoration:none;
+	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05);
+}
+
+.stk-button-stealth, .stk-button-stealth:visited {
+	color:#555555;
+	background:transparent;
+	height:auto;
+	margin:0;
+	padding:0;
+}
+
+.stk-button-stealth:hover:not(.stk-button-disabled):not(.stk-loading) {
+	color:#222222;
+	text-decoration:none;
+}
+
+.stk-button-stealth:active, .stk-button-stealth.active {
+	color:#222222;
+	text-decoration:none;
+}
+
+.stk-button-placeholder {
+	font-weight:normal;
+	font-size:1em;
+	padding:0.4em;
+	text-decoration:none;
+	margin:0px 5px 0px 5px;
+	user-select: none;
+	vertical-align:middle;	
+	display:inline-block;
+    border:0;
+	color:#FFFFFF;
+	border:1px solid rgba(255, 255, 255, 1);
+	border-radius:2px;
+	text-align:center;
+	white-space:nowrap;	
+}
+
+.stk-button-bar {
+	display:inline-flex;
+	direction:row;
+	align-items: center;
+	margin:0 10px 0 10px;
+}
+.stk-button-bar:first-child {
+	margin-left:0;	
+}
+
+.stk-button-bar:last-child {
+	margin-right:0;
+}
+
+.stk-button-bar > .stk-button:not(:first-child):not(:last-child):not(:only-child) {
+	margin-left:0;
+	margin-right:0;
+	border-radius:0;
+	border-left:0;
+}
+
+
+.stk-button-bar > *:first-child .stk-button, .stk-button-bar > .stk-button:first-child:not(:only-child)  {
+	margin-left:0;
+	margin-right:0;
+	border-top-right-radius:0;
+	border-bottom-right-radius:0;
+}
+
+.stk-button-bar > *:last-child  .stk-button, .stk-button-bar > .stk-button:last-child:not(:only-child)  {
+	margin-left:0;
+	margin-right:0;
+	border-top-left-radius:0;
+	border-bottom-left-radius:0;
+	border-left:0;
+}
+
+.stk-button-disabled, .stk-button-disabled *, .stk-button-disabled .stk-button-icon {
+	cursor:not-allowed;
+	box-shadow:none;
+}
+

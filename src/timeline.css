@@ -1,0 +1,49 @@
+.stk-timeline-item {
+    margin:5px 0 5px 0;
+}
+
+.stk-timeline-item-header {
+    display:flex;
+    flex-direction: row;
+    font-weight:bold;
+}
+
+.stk-timeline-item-header .stk-icon {
+    margin: 0 5px 0 0;
+}
+.stk-timeline-item-header:first-child {
+    flex: 1 1;
+    font-weight:strong;
+}
+
+.stk-timeline-item-header *:nth-child(2) {
+    flex: 1 1;
+    font-weight:strong;
+}
+
+.stk-timeline-item-header *:nth-child(3) {
+    flex: 0 0 auto;
+    text-align:right;
+    font-weight: normal;
+}
+
+.stk-timeline-item-body {
+    color: #555555;
+    border-left: 1px solid #E9E9E9;
+    padding: 5px 0 5px 10px;
+    margin: 2px 0 0 6px;
+}
+
+.stk-timeline-item-body > div {
+    border-radius: 4px;
+    background: #F5F5F5;
+    padding: 10px;
+}
+
+.stk-timeline-item-body p {
+    margin:0 0 3px 0;
+}
+
+.stk-timeline-item-body p strong {
+    font-weight: normal;
+}

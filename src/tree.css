@@ -1,0 +1,75 @@
+.stk-tree {
+    display:flex;
+    flex-direction:column;
+}
+
+.stk-tree-node {
+    border-radius:3px; 
+    border:1px solid #FFFFFF;   
+}
+
+.stk-tree-node-title {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    height: 2.5em;
+    padding:0 5px 0 5px;
+}
+
+.stk-tree-node-chevron {
+    flex:0 0 auto;
+    font-size:1.6em;
+    width:1em;
+    padding:0 5px 0 5px;
+}
+
+.stk-tree-node-icon {
+    font-size:1.6em;
+    margin:0;
+    padding:0 5px 0 5px;
+    flex:0 0 auto;
+}
+
+.stk-tree-node-label {
+    flex:1 1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding:0 5px0 5px;
+}
+.stk-tree-node-label * {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.stk-tree-node-secondary-label {
+    overflow: visible;
+    white-space: nowrap;
+    padding:8px 5px 8px 5px;
+}
+
+.stk-tree-node-children {
+    padding: 0 0 0 2em;
+}
+
+.stk-tree-node-selectable {
+    cursor:pointer;
+}
+
+.stk-tree-node-selectable:hover:not(.stk-tree-node-selected) {
+    background:#F4F4F4;
+    border:1px solid #F4F4F4;
+}
+
+.stk-tree-node-selected {
+	background:#1976D2;
+    color:#FFFFFF;
+    border:1px solid #145ea8;
+}
+
+.stk-tree-node-selected .stk-subtle {
+	color:rgba(255, 255, 255, 0.5);
+}

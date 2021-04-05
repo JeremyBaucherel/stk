@@ -1,0 +1,53 @@
+.stk-vtabs {
+    display:flex;
+    flex-direction:row;
+    max-height:100%;
+    flex: 1 1 auto;
+}
+
+.stk-vtabs-list {
+    flex:0 0 auto;
+    display:flex;
+    flex-direction:column;
+    margin:0 20px 0 0;
+    min-width:200px;
+    padding:8px 5px 8px 5px;
+    font-size:1em;
+}
+
+.stk-vtabs-list-item {
+    padding:0 10px 0 10px;
+    font-weight:bold;
+    border-radius:3px;
+    cursor:pointer;
+    border:1px solid transparent;
+    height:3em;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    box-sizing:border-box;
+}
+
+.stk-vtabs-list-item:not(:first-child) {
+    margin-top:2px;
+}
+
+.stk-vtabs-list-item:hover {
+    color:#222222;
+	border: 1px solid #D6D6D6;
+	text-decoration:none;
+    background:linear-gradient(to bottom, #fdfdfd 0%,#f7f7f7 100%);
+}
+
+.stk-vtabs-list-item-selected, .stk-vtabs-list-item-selected:hover {
+    background: linear-gradient(to bottom, #2D8AE6 0%,#1976D2 100%);
+	text-shadow:1px 1px 2px #0F6CC8;
+    color:#FFFFFF;
+    border:1px solid #1e72c5;
+}
+
+.stk-vtabs-panel {
+    padding:8px 5px 8px 5px;
+    flex: 1 1;
+    overflow-y: auto;
+}

@@ -1,0 +1,63 @@
+.stk-table {
+    width:100%;
+    border-spacing:0;
+    box-shadow: 0 2px 5px #F5F5F5;
+}
+
+.stk-table-wrapper {
+    height:100%;
+    width:100%;
+    overflow:auto;
+    background:#F9F9F9;
+}
+
+.stk-table-header {
+    border-bottom: 1px solid #F0F0F0; 
+    box-shadow: 0 2px 5px #F5F5F5;
+}
+
+.stk-table-column {
+    background: #FAFAFA;
+    text-align:left;
+    height:4em;
+    color:#222222;	
+    padding:0 15px 0 15px;
+    text-transform:uppercase;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.stk-table-column:first-child {
+    border-left:none;
+}
+
+.stk-table-cell {
+    height:2em;
+    border-bottom: 1px solid #F0F0F0;
+    border-top:1px solid transparent;
+    border-left: 1px solid #F0F0F0;
+    padding:0 15px 0 15px;
+    color: #111111;
+    white-space: nowrap;
+    background:#FFFFFF;
+    font-size:0.9em;
+}
+
+.stk-table-cell:first-child {
+    border-left:none;
+}
+
+.stk-table-row-hover .stk-table-cell {
+    background:#FBFBFB; 
+}
+
+
+.stk-table-row-selected .stk-table-cell {
+    border-bottom: 1px solid #1e72c5;
+    border-top:1px solid  #1e72c5;
+    border-left: 1px solid #bbd4ed;
+    background: #e8f0f9;
+}
+
+.stk-table-row-selected .stk-table-cell:first-child {
+    border-left:none;
+}

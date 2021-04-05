@@ -1,0 +1,159 @@
+
+div.stk-form-text-rich {
+	display:flex;
+	padding:0;
+	margin:0;
+}
+
+div.stk-form-text-rich > input {
+	flex-grow:1;
+}
+
+div.stk-form-text-rich > a {
+	flex-grow:0;
+}
+
+.stk-form-control {
+	margin:0;
+	padding:10px 0 10px 0;
+	display:flex;
+	flex-direction: column;
+}
+
+@keyframes stk-form-control-focusing {
+    from {background-color: #FFFFFF;}
+    to {background-color: #FCFCFC;}
+}
+
+.stk-form-label {
+	display:block;
+    margin:0 0 5px 0;
+	padding:0;
+	font-weight:bold;
+	text-transform:uppercase;
+}
+
+input, textarea {
+	font-family: inherit;
+	font-size: 1em;
+}
+
+input.stk-form-text-invisible {
+	margin:6px 1px 6px 1px;
+	padding:8px;
+	border:0;
+	display:inline-block;
+	outline:none;
+	width:100%;
+	box-sizing: border-box;
+
+}
+
+input.stk-form-text-invisible:-ms-input-placeholder {
+	font-style:italic;
+}
+
+
+.stk-form-listbox {
+	border-radius:4px;
+	outline:none;
+	display:block;
+	margin:0;
+	list-style-type:none;
+	overflow-y: scroll;
+	height:100%;
+
+	border: 1px solid #D5D5D5;
+	box-shadow: inset 0 1px 1px #EFEFEF;
+	border-radius:4px;
+	padding:5px;
+}
+
+.stk-form-listbox-item {
+	font-size:1em;
+	padding:0.5em;
+	cursor:pointer;
+}
+
+.stk-form-text {
+	border: 1px solid #D5D5D5;
+	box-shadow: inset 0 1px 1px #E5E5E5;
+	border-radius:4px;
+	padding:5px;
+	outline:none;
+	display:inline-block;
+	margin:0;
+	width:100%;
+	box-sizing: border-box;
+	list-style-type:none;
+	display:flex;
+	align-items: center;
+	transition:box-shadow 100ms ease-out;
+	background: #FFFFFF;
+	height:2.7em;
+}
+
+.stk-form-text.stk-error, .stk-form-text.stk-error:hover {
+	border:1px solid #FFAA00;
+}
+
+.stk-form-text > span:first-child {
+	flex: 0 0 auto;
+	padding:0;
+	margin:0 0.5em 0 0;
+	font-size:1.8em;
+}
+.stk-form-text > span:last-child {
+	flex: 0 0 auto;
+	padding:0;
+	margin:0 0 0 0.5em;
+	font-size: 1.8em;
+}
+
+.stk-form-control > div > span {
+	flex: 0 0;
+}
+
+.stk-form-text input {
+	flex: 1 1;
+	outline:none;
+	border:none;
+	background:none;
+	padding:3px 0 3px;
+}
+
+.stk-form-text textarea {
+	flex: 1 1;
+	outline:none;
+	border:none;
+	background:none;
+	padding:0.5em 0 0.5em;
+}
+
+.stk-form-text input::placeholder {
+	
+}
+
+
+
+
+
+input.form-text:focus, .form-textarea:focus {
+	border:1px solid #CFD8DC;
+	box-shadow:0 0 8px #CFD8DC;
+	background:#FFFFFF;
+	outline:none;
+}
+
+.form-group {
+	margin:0;
+	padding:10px 0 10px 0;
+}
+
+.stk-form-checkbox {
+	font-size:0.5em;
+	width:3em;
+	height:3em;
+	padding:0;
+	font-weight:bold;
+}
