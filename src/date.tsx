@@ -562,7 +562,7 @@ export class DayPickerPopup extends React.Component<IDayPickerPopupProps, IDayPi
 		super(props);
 		
 		this.state = {
-			date: this.props.selectedDay
+			date: this.props.selectedDay ? this.props.selectedDay : new Date
 		};
 		
 		this.handleClose = this.handleClose.bind(this);
@@ -572,8 +572,8 @@ export class DayPickerPopup extends React.Component<IDayPickerPopupProps, IDayPi
 	}
 	
 	handleClose (): void {
-		if (this.props.onClose) {
-			this.props.onClose();
+		if (this.props.closePopover) {
+			this.props.closePopover();
 		}
 	}
 
@@ -587,8 +587,12 @@ export class DayPickerPopup extends React.Component<IDayPickerPopupProps, IDayPi
 	}
 	
 	handleSelectDay (day: Date): void {
-		console.log('SELECT DAY');
-		this.setState({date: day});
+		let datesAreDifferent = this.state.date == undefined || day.getFullYear() != this.state.date.getFullYear() || day.getMonth() != this.state.date.getMonth() || day.getDate() != this.state.date.getDate();
+		if (datesAreDifferent) {
+			this.setState({date: day});
+		} else {
+			this.setState({date: undefined});
+		}
 	}
 	
 	handleDoubleSelectDay (day: Date): void {
@@ -602,21 +606,16 @@ export class DayPickerPopup extends React.Component<IDayPickerPopupProps, IDayPi
 	}
 	
 	render () {
-		let currentDay = this.state.date;
-		if (currentDay === undefined) {
-			currentDay = new Date();
-		}
-
 		return (
 			<div>
 				<PopupBody>
 					<Calendar
-						selectedDay={currentDay}
+						selectedDay={this.state.date}
 						onSelectDay={this.handleSelectDay}
 						onDoubleSelectDay={this.handleDoubleSelectDay} />
 				</PopupBody>
 				<PopupFooter>
-					<Button flat onClick={this.props.onClose}>Annuler</Button>
+					<Button flat onClick={this.handleClose}>Annuler</Button>
 					<Button primary icon={EIcon.CHECK} onClick={this.handleValidate}><strong>OK</strong></Button>
 				</PopupFooter>				
 			</div>			

@@ -4,6 +4,7 @@ import './box.css';
 
 
 export interface IBoxProps {
+	children?: any;
 	width?: string; // Custom CSS width to add
 	raised?: boolean; // Add a raised style
 	fullHeight?: boolean; // Whether to stretch to the full height available
@@ -44,7 +45,9 @@ export class Box extends React.PureComponent<IBoxProps, {}> {
 }
 
 export interface IBoxHeadingProps {
+	children?: any;
 	center?: boolean; // Whether to center the heading contents
+	style?: any;
 }
 
 export class BoxHeading extends React.PureComponent<IBoxHeadingProps, {}> {
@@ -54,8 +57,12 @@ export class BoxHeading extends React.PureComponent<IBoxHeadingProps, {}> {
 			className += ' stk-box-heading-center';
 		}
 
+		let style = {};
+		if (this.props.style) {
+			style = this.props.style;
+		}
 		return (
-			<div className={className}>{this.props.children}</div>
+			<div className={className} style={style}>{this.props.children}</div>
 		);
 	}
 }
@@ -80,6 +87,7 @@ export class BoxSubHeading extends React.PureComponent<IBoxSubHeadingProps, {}> 
 
 export interface IBoxFooterProps {
 	alignRight?: boolean; // Whether to align the footer contents to the right
+	children?: any;
 }
 
 export class BoxFooter extends React.PureComponent<IBoxFooterProps, {}> {

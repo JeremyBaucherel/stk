@@ -1,0 +1,121 @@
+
+.stk-page-toolbar {
+	margin:0 0 0 0;
+	padding:0;
+	font-size:1em;
+    top:0;
+    left:40px;
+	z-index:10;
+	background:#FFFFFF; 
+	box-shadow: 0px 1px 9px rgba(0, 0, 0, 0.13);
+    border-bottom: 1px solid #CACACA;
+	display:flex;
+	flex-direction:column;	
+}
+
+.stk-page-toolbar-logo:link,  .stk-page-toolbar-logo:visited,  .stk-page-toolbar-logo:hover {
+	font-size: 2em;
+    color: #FFFFFF;
+    text-decoration: none;
+    background: #227FDB;
+    border-radius: 50px;
+    padding: 4px;
+    margin: 0 10px 0 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    cursor: pointer;
+}
+
+.stk-page-toolbar-title-container  {
+	display:flex;
+	flex-direction:row;
+	align-items: center;
+	flex-wrap:wrap;
+	padding:0 20px 0 20px;
+	height:4em;
+}
+
+.stk-page-toolbar-title {
+	flex:1 1;
+	display:flex;
+	flex-direction:row;
+	align-items:flex-start;
+	min-width:300px;
+	height:100%;
+	align-items:center;
+}
+
+.stk-page-toolbar-title-logo, .stk-page-toolbar-title-logo:visited {
+	color:#227FDB;
+	font-size:3em;
+	text-decoration:none;
+	cursor:pointer;
+	margin:0 10px 0 0;
+}
+
+.stk-page-toolbar-title-logo:hover {
+	color:#2498F0;	
+	text-decoration:none;
+	cursor:pointer;
+}
+
+.stk-page-toolbar-title > div{
+	display:flex;
+	flex-direction:column;
+	align-self:center;
+}
+
+.stk-page-toolbar-title h1 {
+	padding:0;
+	margin:0;
+	vertical-align:middle;
+	font-weight:bold;	
+	display:inline-block;
+	font-size:1.2em;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+
+.stk-page-toolbar h1 a:link, #page-toolbar h1 a:visited {
+	text-decoration:none;
+	color:#888888;
+}
+
+.stk-page-toolbar-tabs {
+	display:flex;
+	flex-direction:row;
+	margin:0 20px 0 20px;	
+	padding:0;
+	text-transform:uppercase;
+}
+
+.stk-page-toolbar-tabs a:link, .stk-page-toolbar-tabs a:visited {
+	padding:8px 5px 8px 5px;
+	background:#FFFFFF;
+	font-weight:bold;
+	margin:0 20px 0 0;
+	text-decoration:none;
+	border-bottom:3px solid #FFFFFF;
+	font-weight:normal;
+	text-align:center;
+	color:#BBBBBB;
+}
+
+.stk-page-toolbar-tabs a:hover {
+	text-decoration:none;
+	border-bottom:3px solid #000000;
+	color:#000000;
+}
+
+.stk-page-toolbar-tab-active:link,
+.stk-page-toolbar-tab-active:visited,
+.stk-page-toolbar-tab-active:hover {
+	border-bottom:3px solid #227FDB;
+	color:#2498F0;
+}
+
+
+.stk-page-toolbar-tabs a .material-icons {
+	font-size:2em;
+	cursor:pointer;
+}

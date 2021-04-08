@@ -266,7 +266,7 @@ export class Popover extends React.Component<IPopoverProps, IPopoverState> {
 	}
 	
 	handleClickChild (): void {
-		this.setState({isMouseOver: true});
+		this.setState({isMouseOver: !this.state.isMouseOver});
 	}
 
 	handleClickTooltip (): void {
@@ -443,7 +443,16 @@ export class Popover extends React.Component<IPopoverProps, IPopoverState> {
 		if (this.props.children && this.props.children.length > 1) {
 			let targetElement = React.cloneElement(
 				this.props.children[0],
-				{key: 'target', active: this.props.trigger == 'click' && this.state.isMouseOver ? true : undefined, ref: (e) => {this.initTargetElement(ReactDOM.findDOMNode(e))}}
+				{
+					key: 'target',
+					active: this.props.trigger == 'click' && this.state.isMouseOver ? true : undefined,
+					ref: (e) => {
+						this.initTargetElement(ReactDOM.findDOMNode(e));
+						if(this.props.children[0].ref != null) {
+							this.props.children[0].ref.current = e;
+						}
+					}
+				}
 			);
 
 			return [

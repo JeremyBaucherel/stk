@@ -89,9 +89,17 @@ export class Page extends React.PureComponent<IPageProps, {}> {
 
 	render (): React.ReactNode {
 		if (this.props.title){
-			document.title = this.props.title + ' - Symphonie';
+			if (window.app_title !== undefined) {
+				document.title = this.props.title + ' - ' + window.app_title;
+			} else {
+				document.title = this.props.title;
+			}
 		} else {
-			document.title = 'Symphonie'; 
+			if (window.app_title !== undefined) {
+				document.title = window.app_title;
+			} else {
+				document.title = ''; 
+			}
 		}
 	
 		return (<div className="stk-page">{this.props.children}</div>);

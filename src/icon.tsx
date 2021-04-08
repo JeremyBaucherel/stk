@@ -6,6 +6,7 @@ import {Tooltip} from './tooltip';
 
 export enum EIcon {
     ACCOUNT_CIRCLE = 'account_circle',
+    ACCOUNT_TREE = 'account_tree',
     ADD = 'add',
     ADD_CIRCLE = 'add_circle',
     ADD_CIRCLE_OUTLINE = 'add_circle_outline',
@@ -18,6 +19,7 @@ export enum EIcon {
     BUG_REPORT = 'bug_report',
     BUILD = 'build',
     CANCEL = 'cancel',
+    CHANGE_HISTORY = 'change_history',
     CHECK = 'check',
     CHECK_BOX = 'check_box',
     CHECK_BOX_OUTLINE_BLANK = 'check_box_outline_blank',
@@ -53,6 +55,7 @@ export enum EIcon {
     LOCK = 'lock',
     LOOKS_ONE = 'looks_one',
     LOOKS_TWO = 'looks_two',
+    LOOKS_THREE = 'looks_three',
     MORE_HORIZ = 'more_horiz',
     OPEN_IN_BROWSER = 'open_in_browser',
     PERSON = 'person',
@@ -68,6 +71,7 @@ export enum EIcon {
     SECURITY = 'security',
     SEND = 'send',
     SETTINGS = 'settings',
+    SETTINGS_INPUT_COMPONENT = 'settings_input_component',
     SHARE = 'share',
     SHOW_CHART = 'show_chart',
     VIEW_HEADLINE = 'view_headline',

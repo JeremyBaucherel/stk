@@ -3,7 +3,7 @@ import * as React from 'react';
 
 
 export interface ISpinnerProps {
-	delay?: Number;
+	delay?: number;
 }
 
 export interface ISpinnerState {
@@ -11,11 +11,15 @@ export interface ISpinnerState {
 }
 
 export class Spinner extends React.Component<ISpinnerProps, ISpinnerState> {
+	timeoutId: NodeJS.Timer | null;
+
 	constructor (props: ISpinnerProps) {
 		super(props);
 		this.state = {
 			shown: false,
 		};
+
+		this.timeoutId = null;
 	}
 
 	activateSpinner (): void {
@@ -30,7 +34,13 @@ export class Spinner extends React.Component<ISpinnerProps, ISpinnerState> {
 		if (delay == 0){
 			this.activateSpinner();
 		} else {
-			setTimeout(this.activateSpinner.bind(this), delay);
+			this.timeoutId = setTimeout(this.activateSpinner.bind(this), delay);
+		}
+	}
+
+	componentWillUnmount (): void {
+		if (this.timeoutId != null) {
+			clearTimeout(this.timeoutId);
 		}
 	}
 

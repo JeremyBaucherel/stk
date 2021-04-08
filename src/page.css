@@ -7,14 +7,24 @@
     flex-direction: column;
 }
 
+.stk-page-body {
+	flex: 1 1;
+    align-content: stretch;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+}
+
 .stk-row {
-	flex: 1 1 auto;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: row;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-
+    width: 100%;
 }
 
 .stk-row-vcenter {

@@ -27,7 +27,9 @@ export class Menu extends React.PureComponent<IMenuProps, {}> {
     render (): React.ReactNode {
         let children = [];
         for (let i = 0; i < this.props.children.length; ++i) {
-            children.push(React.cloneElement(this.props.children[i], {_onClick: this.handleItemClick}));
+            if(this.props.children[i]!=null){
+                children.push(React.cloneElement(this.props.children[i], {_onClick: this.handleItemClick}));
+            }
         }
         let style = null;
         if (this.props.style) {
@@ -100,7 +102,7 @@ export class MenuItem extends React.PureComponent<IMenuItemProps, {}> {
         }
 
         if (this.props.to) {
-            if (this.props.to.substring(0, 4) == 'http') {
+            if (this.props.to.substring(0, 4) == 'http' || this.props.to.substring(0, 6) == 'mailto') {
                 return (<a href={this.props.to} className={className} onClick={this.handleClick} target="_blank">{icon}{content}</a>);
             } else {
                 return (<ReactRouterDOM.Link to={this.props.to} className={className} onClick={this.handleClick}>{icon}{content}</ReactRouterDOM.Link>);

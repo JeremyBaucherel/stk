@@ -98,11 +98,12 @@ export class TreeNode extends React.Component<ITreeNodeProps, ITreeNodeState> {
         }
 
         let className = 'stk-tree-node';
+        let classNameTitle = 'stk-tree-node-title';
         if (this.props.selectable === true) {
-            className += ' stk-tree-node-selectable';
+            classNameTitle += ' stk-tree-node-selectable';
         }
         if (this.props.selected === true) {
-            className += ' stk-tree-node-selected';
+            classNameTitle += ' stk-tree-node-selected';
         }
 
         let buttons = null;
@@ -112,7 +113,7 @@ export class TreeNode extends React.Component<ITreeNodeProps, ITreeNodeState> {
 
         return (
             <div className={className}>
-                <div className="stk-tree-node-title" onClick={this.handleClick}>
+                <div className={classNameTitle} onClick={this.handleClick}>
                     {chevron}
                     {nodeIcons}
                     <span className="stk-tree-node-label">{this.props.label}</span>

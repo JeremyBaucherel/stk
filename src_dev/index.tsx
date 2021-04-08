@@ -1,14 +1,16 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import * as ReactRouterDOM from 'react-router-dom';
+import {BrowserRouter, Route, Switch, withRouter} from 'react-router-dom';
 import {Button, ButtonBar} from '../src/button';
 import {Box, BoxHeading, BoxBody, BoxFooter} from '../src/box';
-import {CardDeck, Card, CardTitle, CardBody, CardBodyIcon, CardFooter} from '../src/card';
+import {CardDeck, Card, CardTitle, CardBody, CardFooter} from '../src/card';
 import {Callout} from '../src/callout';
 import * as Common from '../src/common';
 import {Data, DataCell, DataRow} from '../src/data';
 import {DayPicker, DayRangePicker, RelativeDate} from '../src/date';
 import {HFlex, VFlex} from '../src/flex';
-import {FormCheckBox, FormControl, FormList, IFormListItem, FormTextSuggest, FormSmartText} from '../src/form';
+import {FormCheckBox, FormControl, FormDate, FormList, IFormListItem, FormTextSuggest, FormSmartText, FormTextarea} from '../src/form';
 import {EIcon, Icon} from '../src/icon';
 import {Page, PageBody, Row, Col} from '../src/page';
 import {Popover, EPosition, ETrigger} from '../src/popover';
@@ -20,6 +22,7 @@ import {Spreadsheet, SpreadsheetColumn} from '../src/spreadsheet';
 import {Tag, TagList} from '../src/tag';
 import {Timeline, TimelineItem, TimelineItemHeader, TimelineItemBody} from '../src/timeline';
 import {Tooltip} from '../src/tooltip';
+import {Toolbar} from '../src/toolbar';
 import './index.css'
 
 
@@ -71,7 +74,7 @@ class FormExamples extends React.PureComponent<{}, {}> {
                     <FormSmartText icon={EIcon.INBOX} value="Inbox name" />
 
                     <h4>Icon button</h4>
-                    <FormSmartText buttonIcon={EIcon.DELETE} buttonToolip="Click me!" onButtonClick={() => alert('Clicked!')} />
+                    <FormSmartText buttonIcon={EIcon.DELETE} buttonTooltip="Click me!" onButtonClick={() => alert('Clicked!')} />
 
                     <h4>Error</h4>
                     <FormSmartText value="Wrong value" error="Unexpected value" />
@@ -105,6 +108,31 @@ class FormExamples extends React.PureComponent<{}, {}> {
         );
     }
 }
+
+
+class FormTextareaExamples extends React.PureComponent<{}, {}> {
+
+    render () {
+        return (
+            <Box>
+                <BoxHeading><h2><strong>FormTextarea</strong></h2></BoxHeading>
+                <BoxBody fullHeight verticalScroll>
+                    <h3>FormTextarea disabled</h3>
+                    <FormTextarea disabled={true} value={"fjkhdjkfhjksdfksjdflsd"} rows={6}>
+
+                    </FormTextarea>
+
+                    <h3>FormTextarea normal</h3>
+                    <FormTextarea disabled={false} value={"fjkhdjkfhjksdfksjdflsd"} rows={6}>
+
+                    </FormTextarea>
+                </BoxBody>
+            </Box>     
+    );
+    }
+}
+
+
 
 
 class TimelineExamples extends React.PureComponent<{}, {}> {
@@ -556,6 +584,56 @@ class CardExamples extends React.PureComponent<{}, {}> {
     }
 }
 
+interface FormDateExamplesState {
+    withDateValue?: Date;
+    withoutDateValue?: Date;
+}
+
+class FormDateExamples extends React.Component<{}, FormDateExamplesState> {
+
+    constructor(props: {}) {
+        super(props);
+
+        this.state = {
+            withDateValue: new Date(2019, 11, 2),
+            withoutDateValue: undefined,
+        };
+    }
+
+    formatDate(dat: Date): String {
+        if (dat) {
+            return dat.getFullYear().toString() + '.' + (dat.getMonth() + 1).toString() + '.' + dat.getDate().toString();
+        }
+        return '';
+    }
+
+    handleChangeWithDate(newDate: Date | null): void {
+        this.setState({withDateValue: newDate});
+    }
+
+    handleChangeWithoutDate(newDate: Date | null): void {
+        this.setState({withoutDateValue: newDate});
+    }
+
+    render () {
+        return (
+            <Box>
+                <BoxHeading><h2><strong>Form : Date</strong></h2></BoxHeading>
+                <BoxBody>
+                    <h3>With date ({this.formatDate(this.state.withDateValue)})</h3>
+                    <div style={{width:"160px"}}>
+                    <FormDate onChange={this.handleChangeWithDate.bind(this)} value={this.state.withDateValue}/>
+                    </div>
+
+                    <h3>Without date ({this.formatDate(this.state.withoutDateValue)})</h3>
+                    <div style={{width:"160px"}}>
+                    <FormDate onChange={this.handleChangeWithoutDate.bind(this)} value={this.state.withoutDateValue}/>
+                    </div>
+                </BoxBody>
+            </Box>
+        );
+    }
+}
 
 class TagExamples extends React.PureComponent<{}, {}> {
     render () {
@@ -579,6 +657,24 @@ class TagExamples extends React.PureComponent<{}, {}> {
 
 class SpreadsheetExamples extends React.PureComponent<{}, {}> {
 
+    getRandomWord(): string {
+        let words = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot', 'Golf', 'Hotel', 'India'];
+        let rand = Math.round(Math.random() * (words.length - 1));
+        return words[rand];
+    }
+
+    getNRandomWords(): string {
+        let s = '';
+        let n = Math.round(Math.random() * 3);
+        for (let i = 0; i < n ; ++i) {
+            if (s != '') {
+                s += ' ';
+            }
+            s += this.getRandomWord();
+        }
+        return s;
+    }
+
     getNColumns (num: number): SpreadsheetColumn[] {
         let cols: SpreadsheetColumn[] = [];
         for (let i = 0; i < num; ++i) {
@@ -592,9 +688,8 @@ class SpreadsheetExamples extends React.PureComponent<{}, {}> {
         for (let iRow = 0; iRow < numRows; ++iRow) {
             let row: any = {};
             for (let iColumn = 0; iColumn < numColumns; ++iColumn) {
-                row["Col" + iColumn.toString()] = iColumn.toString();
+                row["Col" + iColumn.toString()] = this.getNRandomWords();
             }
-            //console.log(row);
             rows.push(row);
         }
         
@@ -608,21 +703,24 @@ class SpreadsheetExamples extends React.PureComponent<{}, {}> {
             new SpreadsheetColumn('article'),
         ];
 
+        columns[0].buttons = (
+            <Button stealth icon={EIcon.FILTER_LIST} />
+        )
+
+        columns[1].buttons = (
+            <Button stealth icon={EIcon.ARROW_DROP_DOWN} />
+        )
+
+        columns[2].buttons = (
+            <Button stealth icon={EIcon.REFRESH} />
+        )
+       
+
         let rows = [
             {
                 'article': 'D571.98765.200.01',
                 'avis': 9872323,
                 'type': 'AM',
-            },
-            {
-                'article': 'D571.98765.200.01',
-                'avis': 9872323,
-                'type': 'BM',
-            },
-            {
-                'article': 'D571.98765.200.01',
-                'avis': 9872323,
-                'type': 'CM',
             },
             {
                 'article': 'D571.98765.200.01',
@@ -633,21 +731,15 @@ class SpreadsheetExamples extends React.PureComponent<{}, {}> {
                 'article': 'D571.98765.200.01',
                 'avis': 9872350,
                 'type': 'AFFSDFDSFD',
-            },
-            {
-                'article': 'D571.98765.200.01',
-                'avis': 9872350,
-                'type': 'CM',
             }
-
         ];
 
         return (
-            <Box fullHeight>
+            <Box>
                 <BoxHeading><h2><strong>Spreadsheet</strong></h2></BoxHeading>
                 <BoxBody>
-                    <h3>Simple</h3>
-                    <Spreadsheet filtrable={true} sortable={true} columns={columns} rows={rows} rowIndex={['avis']} />
+                    <h3>Simple</h3>                    
+                    <Spreadsheet columns={columns} rows={rows} rowIndex={['avis']} />
 
                     <h3>Lots of data</h3>
                     <Spreadsheet height="300px" columns={this.getNColumns(50)} rows={this.getNRows(50, 30)} rowIndex={['Col0']} />
@@ -657,13 +749,167 @@ class SpreadsheetExamples extends React.PureComponent<{}, {}> {
     }
 }
 
+class SpreadsheetFiltersExamples extends React.PureComponent<{}, {}> {
+
+    getRandomWord(): string {
+        let words = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot', 'Golf', 'Hotel', 'India'];
+        let rand = Math.round(Math.random() * (words.length - 1));
+        return words[rand];
+    }
+
+    getNRandomWords(): string {
+        let s = '';
+        let n = Math.round(Math.random() * 3);
+        for (let i = 0; i < n ; ++i) {
+            if (s != '') {
+                s += ' ';
+            }
+            s += this.getRandomWord();
+        }
+        return s;
+    }
+
+    getNColumns (num: number): SpreadsheetColumn[] {
+        let cols: SpreadsheetColumn[] = [];
+        for (let i = 0; i < num; ++i) {
+            let col = new SpreadsheetColumn("Col" + i.toString(), undefined, "menu");
+            col.filtrable = true;
+            cols.push(col);
+        }
+        return cols;
+    }
+
+    getNRows (numColumns: number, numRows: number): any[] {
+        let rows: any[] = [];
+        for (let iRow = 0; iRow < numRows; ++iRow) {
+            let row: any = {};
+            for (let iColumn = 0; iColumn < numColumns; ++iColumn) {
+                row["Col" + iColumn.toString()] = this.getNRandomWords();
+            }
+            rows.push(row);
+        }
+        
+        return rows;
+    }
+
+    render () {              
+
+        let rows = [
+            {
+                'article': 'D571.98765.200.01',
+                'avis': 9872323,
+                'type': 'AM',
+            },
+            {
+                'article': 'D571.98765.200.01',
+                'avis': 9872353,
+                'type': 'AF',
+            },
+            {
+                'article': 'D571.98765.200.01',
+                'avis': 9872350,
+                'type': 'AFFSDFDSFD',
+            }
+        ];
+
+        return (
+            <Box fullHeight>
+                <BoxHeading><h2><strong>Spreadsheet : Filters</strong></h2></BoxHeading>
+                <BoxBody>
+                    <Spreadsheet filter_default={[]} columns={this.getNColumns(50)} rows={this.getNRows(50, 50)} rowIndex={['Col0']} />
+                </BoxBody>
+            </Box>
+        );
+    }
+}
+
+
+interface TestAppTreeProps {
+    selectedTabId: string;
+}
+
+class TestAppTreeComp extends React.PureComponent<ReactRouterDOM.RouteComponentProps<{}> & TestAppTreeProps> {
+
+    renderTabTitle (title: string, id: string): React.ReactNode {
+        return (
+            <TreeNode label={title} onClick={() => this.props.history.push('/' + id)} selectable selected={id == this.props.selectedTabId} />
+        );
+    }
+
+    render(): React.ReactNode {
+        return (
+            <Tree>
+                {this.renderTabTitle('Buttons', 'button')}
+                {this.renderTabTitle('Callouts', 'callout')}
+                {this.renderTabTitle('Cards', 'card')}
+                {this.renderTabTitle('Date / Time', 'datetime')}
+                {this.renderTabTitle('Form', 'form')}
+                {this.renderTabTitle('Form : Date', 'form-date')}
+                {this.renderTabTitle('Form : Textarea', 'form-textarea')}
+                {this.renderTabTitle('Icons', 'icon')}
+                {this.renderTabTitle('Menu', 'menu')}
+                {this.renderTabTitle('Popover', 'popover')}
+                {this.renderTabTitle('Progress', 'progress')}
+                {this.renderTabTitle('Spinner', 'spinner')}
+                {this.renderTabTitle('Speadsheet', 'spreadsheet')}
+                {this.renderTabTitle('Speadsheet : filters', 'spreadsheet-filters')}
+                {this.renderTabTitle('Table', 'table')}
+                {this.renderTabTitle('Tag', 'tag')}
+                {this.renderTabTitle('Timeline', 'timeline')}
+                {this.renderTabTitle('Tooltip', 'tooltip')}
+                {this.renderTabTitle('Tree', 'tree')}
+            </Tree>
+        );
+    }
+}
+const TestAppTree = withRouter(TestAppTreeComp);
+
+class TestAppPageComp extends React.PureComponent<ReactRouterDOM.RouteComponentProps<{}>, {}> {
+
+    componentWillReceiveProps(newProps: any) {
+        console.log(newProps);
+    }
+
+    render(): React.ReactNode {
+        return (
+            <Switch>
+                <Route exact path="/callout" component={CalloutExamples} />
+                <Route exact path="/button" component={ButtonExamples} />
+                <Route exact path="/card" component={CardExamples} />
+                <Route exact path="/datetime" component={DateExamples} />
+                <Route exact path="/icon" component={IconExamples} />
+                <Route exact path="/form" component={FormExamples} />
+                <Route exact path="/form-date" component={FormDateExamples} />
+                <Route exact path="/form-textarea" component={FormTextareaExamples} />
+                <Route exact path="/menu" component={MenuExamples} />
+                <Route exact path="/popover" component={PopoverExamples} />
+                <Route exact path="/progress" component={ProgressExamples} />
+                <Route exact path="/spinner" component={SpinnerExamples} />
+                <Route exact path="/spreadsheet" component={SpreadsheetExamples} />
+                <Route exact path="/spreadsheet-filters" component={SpreadsheetFiltersExamples} />
+                <Route exact path="/tag" component={TagExamples} />
+                <Route exact path="/timeline" component={TimelineExamples} />
+                <Route exact path="/tooltip" component={TooltipExamples} />
+                <Route exact path="/tree" component={TreeExamples} />
+            </Switch>
+        );
+    }
+}
+const TestAppPage = withRouter(TestAppPageComp);
+
+
+interface TestAppProps {
+    history: any;
+}
+
 interface TestAppState {
     tabId: string;
 }
 
-class TestApp extends React.PureComponent<{}, TestAppState> {
 
-    constructor (props: {}) {
+class TestApp extends React.Component<TestAppProps, TestAppState> {
+
+    constructor (props: TestAppProps) {
         super(props);
 
         this.state = {
@@ -671,75 +917,33 @@ class TestApp extends React.PureComponent<{}, TestAppState> {
         };
     }
 
-    handleTabClick (tabId: string): void {
-        this.setState({tabId: tabId});
-    }
-
     render () {
-        return (
-            <Page title="STK : Symphonie Tool Kit">
-                <PageBody>
-                    <Row fullHeight>
-                        <Col size={3}>
-                            <Box>
-                                <BoxHeading><h2>TOC</h2></BoxHeading>
-                                <BoxBody>
-                                    <Tree>
-                                        {this.renderTabTitle('Buttons', 'button')}
-                                        {this.renderTabTitle('Callouts', 'callout')}
-                                        {this.renderTabTitle('Cards', 'card')}
-                                        {this.renderTabTitle('Date / Time', 'datetime')}
-                                        {this.renderTabTitle('Form', 'form')}
-                                        {this.renderTabTitle('Icons', 'icon')}
-                                        {this.renderTabTitle('Menu', 'menu')}
-                                        {this.renderTabTitle('Popover', 'popover')}
-                                        {this.renderTabTitle('Progress', 'progress')}
-                                        {this.renderTabTitle('Spinner', 'spinner')}
-                                        {this.renderTabTitle('Speadsheet', 'spreadsheet')}
-                                        {this.renderTabTitle('Table', 'table')}
-                                        {this.renderTabTitle('Tag', 'tag')}
-                                        {this.renderTabTitle('Timeline', 'timeline')}
-                                        {this.renderTabTitle('Tooltip', 'tooltip')}
-                                        {this.renderTabTitle('Tree', 'tree')}
-                                    </Tree>
-                                </BoxBody>
-                            </Box>
-                        </Col>
-                        <Col size={9}>
-                            {this.renderTabContents(this.state.tabId)}
-                        </Col>
-                    </Row>
-                </PageBody>
-            </Page>
-        );
-    }
+        let pageTitle = (<h1>STK : Symphonie Tool Kit</h1>)
+        let pageButtons = (<Button secondary icon={EIcon.HELP_OUTLINE} to={"https://gheprivate.eu.airbus.corp/QDNP/stk"} />);
 
-    renderTabTitle (title: string, id: string): React.ReactNode {
         return (
-            <TreeNode label={title} onClick={() => this.handleTabClick(id)} selectable selected={this.state.tabId == id ? true : undefined} />
+            <BrowserRouter>
+                <Page title="STK : Symphonie Tool Kit">
+                    <Toolbar title={pageTitle} buttons={pageButtons}/>
+                    <PageBody>
+                        <Row fullHeight>
+                            <Col size={3}>
+                                <Box fullHeight>
+                                    <BoxHeading><h2>TOC</h2></BoxHeading>
+                                    <BoxBody>
+                                        <TestAppTree selectedTabId={this.state.tabId} />
+                                    </BoxBody>
+                                </Box>
+                            </Col>
+                            <Col size={9}>                            
+                                <TestAppPage />
+                            </Col>
+                        </Row>
+                    </PageBody>
+                </Page>
+            </BrowserRouter>
         );
-    }
-
-    renderTabContents (tabId: string): React.ReactNode {
-        switch (tabId) {
-            case 'callout': return (<CalloutExamples />);
-            case 'button': return (<ButtonExamples />);
-            case 'card': return (<CardExamples />);
-            case 'datetime': return (<DateExamples />);
-            case 'icon': return (<IconExamples />);
-            case 'form': return (<FormExamples />);
-            case 'menu': return (<MenuExamples />);
-            case 'popover': return (<PopoverExamples />);
-            case 'progress': return (<ProgressExamples />);
-            case 'spinner': return (<SpinnerExamples />);
-            case 'spreadsheet': return (<SpreadsheetExamples />);
-            case 'tag': return (<TagExamples />);
-            case 'timeline': return (<TimelineExamples />);
-            case 'tooltip': return (<TooltipExamples />);
-            case 'tree': return (<TreeExamples />);
-            default: return null;
-        }
-    }
+    }   
 }
 
 ReactDOM.render(React.createElement(TestApp), document.getElementById('body'));

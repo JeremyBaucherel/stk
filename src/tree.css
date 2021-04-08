@@ -5,7 +5,7 @@
 
 .stk-tree-node {
     border-radius:3px; 
-    border:1px solid #FFFFFF;   
+    /*border:1px solid #FFFFFF;*/
 }
 
 .stk-tree-node-title {
@@ -61,13 +61,13 @@
 
 .stk-tree-node-selectable:hover:not(.stk-tree-node-selected) {
     background:#F4F4F4;
-    border:1px solid #F4F4F4;
+    /*border:1px solid #F4F4F4;*/
 }
 
 .stk-tree-node-selected {
 	background:#1976D2;
     color:#FFFFFF;
-    border:1px solid #145ea8;
+    /*border:1px solid #145ea8;*/
 }
 
 .stk-tree-node-selected .stk-subtle {
