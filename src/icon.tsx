@@ -3,7 +3,6 @@ import * as React from 'react';
 import * as Common from './common';
 import {Tooltip} from './tooltip';
 
-
 export enum EIcon {
     ACCOUNT_CIRCLE = 'account_circle',
     ACCOUNT_TREE = 'account_tree',
@@ -18,6 +17,7 @@ export enum EIcon {
     BLOCK = 'block',
     BUG_REPORT = 'bug_report',
     BUILD = 'build',
+    CALL_SPLIT = 'call_split',
     CANCEL = 'cancel',
     CHANGE_HISTORY = 'change_history',
     CHECK = 'check',
@@ -39,6 +39,7 @@ export enum EIcon {
     EVENT_BUSY = 'event_busy',
     EXPAND_MORE = 'expand_more',
     FACE = 'face',
+    FEED_BACK = 'feedback',
     FILE_DOWNLOAD = 'file_download',
     FILTER_LIST = 'filter_list',
     FLAG = 'flag',
