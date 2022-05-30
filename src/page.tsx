@@ -8,6 +8,7 @@ export interface IRowProps {
 	children?: any;
 	vcenter?: boolean;
 	fullHeight?: boolean;
+	style?: any;
 }
 
 export class Row extends React.PureComponent<IRowProps, {}> {
@@ -19,7 +20,11 @@ export class Row extends React.PureComponent<IRowProps, {}> {
 		if (this.props.fullHeight === true) {
 			className += ' stk-row-full-height';
 		}
-		return (<div className={className}>{this.props.children}</div>);
+		let style = null;
+		if (this.props.style) {
+			style = this.props.style;
+		}
+		return (<div className={className} style={style}>{this.props.children}</div>);
 	}
 }
 
