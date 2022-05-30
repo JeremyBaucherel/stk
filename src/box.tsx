@@ -149,6 +149,8 @@ export class BoxBody extends React.PureComponent<IBoxBodyProps, {}> {
 
 		if (this.props.padding) {
 			className += ' ' + Common.getPaddingClass(this.props.padding);
+		}else{
+			className += ' ' + Common.getPaddingClass();
 		}
 
 		let comp = (
