@@ -3,7 +3,7 @@
         "alwaysStrict": true,
         "declaration": true,
         "esModuleInterop": true,
-        "jsx": "React",
+        "jsx": "react",
         "module": "commonjs",
         "moduleResolution": "node",
         "noFallthroughCasesInSwitch": true,
