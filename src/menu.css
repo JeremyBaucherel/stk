@@ -40,9 +40,10 @@
 }
 
 .stk-menu-item-selected {
-    background:#1976D2;
+    /*background:#1976D2;
 	background: linear-gradient(to bottom, #2D8AE6 0%,#1976D2 100%);
-	text-shadow:1px 1px 2px #0F6CC8;
+	text-shadow:1px 1px 2px #0F6CC8;*/
+    background:#00205e;
 	color:#FFFFFF;
 }
 
