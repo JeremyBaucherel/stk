@@ -264,4 +264,8 @@ export class DataCol extends React.PureComponent<IDataColProps, {}> {
 			<div className={className}>{this.props.children}</div>
 		);
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 89cc6255324959adca13eb7f74c0ea77dc617a27
