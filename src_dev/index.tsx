@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {ToggleSwitch} from '../src/ToggleSwitch/ToggleSwitch'
 import * as ReactDOM from 'react-dom';
 import * as ReactRouterDOM from 'react-router-dom';
 import {BrowserRouter, Route, Switch, withRouter} from 'react-router-dom';
@@ -25,8 +26,32 @@ import {Tooltip} from '../src/tooltip';
 import {Toolbar} from '../src/toolbar';
 import './index.css'
 
+interface ParamProps {
 
-class FormExamples extends React.PureComponent<{}, {}> {
+};
+
+interface ParamState {
+	booleanChecked1: boolean;
+    booleanChecked2: boolean;
+    booleanChecked3: boolean;
+    booleanChecked4: boolean;
+    booleanChecked5: boolean;
+}
+
+
+class FormExamples extends React.PureComponent<ParamProps, ParamState> {
+
+    constructor (props: ParamProps) {
+        super(props);
+
+		this.state = {
+			booleanChecked1: true,
+            booleanChecked2: true,
+            booleanChecked3: true,
+            booleanChecked4: true,
+            booleanChecked5: false,
+		}
+	}
 
     getSuggestedItems (itemCount: number): any {
         let suggestions = [];
@@ -55,11 +80,19 @@ class FormExamples extends React.PureComponent<{}, {}> {
             }
         ];
     }
+
     render () {
         return (
             <Box>
                 <BoxHeading><h2><strong>Form</strong></h2></BoxHeading>
                 <BoxBody fullHeight verticalScroll>
+                    <h3>Boolean Switch</h3>
+                    <ToggleSwitch id="switch1" checked={this.state.booleanChecked1} onChange={newBooleanChecked => this.setState({booleanChecked1:newBooleanChecked})} />
+                    <ToggleSwitch id="switch2" disabled={true} checked={this.state.booleanChecked2} onChange={newBooleanChecked => this.setState({booleanChecked2:newBooleanChecked})} />
+                    <ToggleSwitch id="switch3" optionLabels={["Oui","Non"]} checked={this.state.booleanChecked3} onChange={newBooleanChecked => this.setState({booleanChecked3:newBooleanChecked})} />
+                    <ToggleSwitch id="switch4" small={true} checked={this.state.booleanChecked4} onChange={newBooleanChecked => this.setState({booleanChecked4:newBooleanChecked})} />
+                    <ToggleSwitch id="switch5" disabled={true} small={true} checked={this.state.booleanChecked5} onChange={newBooleanChecked => this.setState({booleanChecked5:newBooleanChecked})} />
+
                     <h3>CheckBox</h3>
                     <FormCheckBox label="This is a checkbox" />
 
@@ -109,7 +142,6 @@ class FormExamples extends React.PureComponent<{}, {}> {
     }
 }
 
-
 class FormTextareaExamples extends React.PureComponent<{}, {}> {
 
     render () {
@@ -131,9 +163,6 @@ class FormTextareaExamples extends React.PureComponent<{}, {}> {
     );
     }
 }
-
-
-
 
 class TimelineExamples extends React.PureComponent<{}, {}> {
     render (): React.ReactNode {
@@ -306,7 +335,6 @@ class PopoverExamples extends React.PureComponent<{}, {}> {
         );
     }
 }
-
 
 class ProgressExamples extends React.PureComponent<{}, {}> {
     render (): React.ReactNode {
@@ -501,7 +529,6 @@ class ButtonExamples extends React.PureComponent<{}, {}> {
     }
 }
 
-
 class IconExamples extends React.PureComponent<{}, {}> {
     render () {
         let icons = [];
@@ -521,7 +548,6 @@ class IconExamples extends React.PureComponent<{}, {}> {
         );
     }
 }
-
 
 class MenuExamples extends React.PureComponent<{}, {}> {
     render () {
@@ -543,7 +569,6 @@ class MenuExamples extends React.PureComponent<{}, {}> {
         );
     }
 }
-
 
 class CardExamples extends React.PureComponent<{}, {}> {
     render () {
@@ -823,16 +848,21 @@ class SpreadsheetFiltersExamples extends React.PureComponent<{}, {}> {
     }
 }
 
-
 interface TestAppTreeProps {
     selectedTabId: string;
 }
 
+
 class TestAppTreeComp extends React.PureComponent<ReactRouterDOM.RouteComponentProps<{}> & TestAppTreeProps> {
+
+    handleCLick(id:string){
+        this.props.history.push('/' + id);
+    }
+
 
     renderTabTitle (title: string, id: string): React.ReactNode {
         return (
-            <TreeNode label={title} onClick={() => this.props.history.push('/' + id)} selectable selected={id == this.props.selectedTabId} />
+            <TreeNode label={title} onClick={() => this.handleCLick(id)} selectable selected={id == this.props.selectedTabId} />
         );
     }
 
@@ -865,10 +895,6 @@ class TestAppTreeComp extends React.PureComponent<ReactRouterDOM.RouteComponentP
 const TestAppTree = withRouter(TestAppTreeComp);
 
 class TestAppPageComp extends React.PureComponent<ReactRouterDOM.RouteComponentProps<{}>, {}> {
-
-    componentWillReceiveProps(newProps: any) {
-        console.log(newProps);
-    }
 
     render(): React.ReactNode {
         return (
@@ -919,7 +945,7 @@ class TestApp extends React.Component<TestAppProps, TestAppState> {
 
     render () {
         let pageTitle = (<h1>STK : Symphonie Tool Kit</h1>)
-        let pageButtons = (<Button secondary icon={EIcon.HELP_OUTLINE} to={"https://gheprivate.eu.airbus.corp/QDNP/stk"} />);
+        let pageButtons = (<Button secondary icon={EIcon.HELP_OUTLINE} to={"https://gheprivate.eu.airbus.corp/ASGARD/stk"} />);
 
         return (
             <BrowserRouter>
