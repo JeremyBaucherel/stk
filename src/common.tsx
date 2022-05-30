@@ -5,14 +5,17 @@ export enum Margin {
     Small = 'small',
     Medium = 'medium',
     Large = 'large',
+    ULarge = 'ularge',
+    XLarge = 'xlarge'
 }
-
 
 export enum Padding {
     None = 'none',
     Small = 'small',
     Medium = 'medium',
     Large = 'large',
+    ULarge = 'ularge',
+    XLarge = 'xlarge'
 }
 
 export enum EStyle {
@@ -87,7 +90,14 @@ export function getMarginClass (margin?: Margin, defaultMargin :Margin = Margin.
         case Margin.Large:
             clsName = 'stk-margin-large';
             break;
-            
+
+        case Margin.ULarge:
+            clsName = 'stk-margin-ularge';
+            break;  
+
+        case Margin.XLarge:
+            clsName = 'stk-margin-xlarge';
+            break;              
     }
 
     return clsName;
@@ -101,7 +111,7 @@ export function getClassName (defaultClassName: string, classNameProp?: string):
     return cls;
 }
 
-export function getPaddingClass (padding?: Padding, defaultPadding :Padding = Padding.Medium): string {
+export function getPaddingClass (padding?: Padding, defaultPadding :Padding = Padding.Large): string {
     let clsName = '';
 
     if (padding) {
@@ -125,8 +135,14 @@ export function getPaddingClass (padding?: Padding, defaultPadding :Padding = Pa
         case Padding.Large:
             clsName = 'stk-padding-large';
             break;
-            
-    }
 
+        case Padding.ULarge:
+            clsName = 'stk-padding-ularge';
+            break;  
+
+        case Padding.XLarge:
+            clsName = 'stk-padding-xlarge';
+            break;      
+    }
     return clsName;
 }
