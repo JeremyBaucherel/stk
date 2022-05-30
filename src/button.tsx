@@ -3,6 +3,7 @@ import * as React from 'react';
 import {Link} from 'react-router-dom';
 import {EIcon, Icon} from './icon';
 import {Tooltip} from './tooltip';
+import {EPosition} from './popover';
 
 
 export interface IButtonBarProps {
@@ -33,6 +34,7 @@ export interface IButtonProps {
 	target?: string; // Equivalent to the HTML attribute target. Use target="_blank" to open the link in a new window
 	to?: string; // Destination URL
 	tooltip?: string; // Tooltip text to display when mouse-hovering the button
+	position?: EPosition;
 }
 
 export class Button extends React.PureComponent<IButtonProps, {}> {
@@ -123,7 +125,7 @@ export class Button extends React.PureComponent<IButtonProps, {}> {
 		}
 
 		if (this.props.tooltip) {
-			return (<Tooltip text={this.props.tooltip}>{button}</Tooltip>);
+			return (<Tooltip position={this.props.position} text={this.props.tooltip}>{button}</Tooltip>);
 		} else {
 			return button;
 		}
