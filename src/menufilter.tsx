@@ -10,10 +10,14 @@ export interface IFormListItem {
 export interface IMenuFilterProps 
 {
     enableMultiSelection?: boolean;
+    displayvalue?: string;
     value ?: any[]; // A list of IDs for the items selected
     onSelectionChange?: {(newSelection :any): void};
     items?: IFormListItem[];
     style?: any;
+    disabled?: boolean;
+    position?: EPosition;
+    mandatory?: boolean;
 }
 
 export interface IMenuFilterState 
@@ -45,23 +49,40 @@ export class MenuFilter extends React.Component<IMenuFilterProps, IMenuFilterSta
     {
         let choix_defaut:string = "";
         let tab_choix_defaut:string[] = [];
-
+        
         if(this.props.value != undefined)
         {
             for(var i in this.props.value)
             {
                 if(this.props.items)
                 {
-                    tab_choix_defaut.push(this.props.items[this.props.value[i]].text);
+                    for(var item in this.props.items){
+                        if(this.props.items[item].id == this.props.value[i]){
+                            tab_choix_defaut.push(this.props.items[item].text)
+                        }
+                    }
                 }
             }
 
             choix_defaut = tab_choix_defaut.toString();
         }
 
+        if(this.props.displayvalue){choix_defaut = this.props.displayvalue;}
+
+        var disabled = false;
+        if(this.props.disabled){disabled = this.props.disabled;}
+
+        var position:EPosition = EPosition.BOTTOM_LEFT;
+        if(this.props.position){
+            position = this.props.position;
+        }
+
+        var mandatory = false;
+        if(this.props.mandatory){mandatory = this.props.mandatory;}
+
         return  (
-            <Popover trigger={ETrigger.CLICK} position={EPosition.BOTTOM_LEFT}>
-                <FormSmartText value={choix_defaut} />
+            <Popover trigger={ETrigger.CLICK} position={position}>
+                <FormSmartText disabled={disabled} value={choix_defaut}  mandatory={mandatory}/>
                 <FormList
                     enableMultiSelection={this.props.enableMultiSelection} 
                     value={this.props.value} 
@@ -72,6 +93,7 @@ export class MenuFilter extends React.Component<IMenuFilterProps, IMenuFilterSta
             </Popover>
         );
         
+        /*
         if(this.state.display == true)
         {
             return  (
@@ -96,6 +118,7 @@ export class MenuFilter extends React.Component<IMenuFilterProps, IMenuFilterSta
                 </div>
             )
         }
+        */
     }
 
 }
