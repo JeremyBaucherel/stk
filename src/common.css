@@ -127,6 +127,14 @@
 	padding:15px;
 }
 
+.stk-padding-ularge {
+	padding:20px;
+}
+
+.stk-padding-xlarge {
+	padding:25px;
+}
+
 .stk-margin-none {
 	margin:0;
 }
@@ -141,6 +149,14 @@
 
 .stk-margin-large {
 	padding:15px;
+}
+
+.stk-margin-ularge {
+	padding:20px;
+}
+
+.stk-margin-xlarge {
+	padding:25px;
 }
 
 .stk-loading {
