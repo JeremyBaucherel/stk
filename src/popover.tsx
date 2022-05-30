@@ -30,8 +30,9 @@ export interface IPopoverProps {
 	height?: string;
 	popoverClassName?: string;
 	position?: EPosition;
-	trigger: ETrigger;
+	trigger?: ETrigger;
 	width?: string;
+	isMouseOver?:boolean;
 }
 
 export interface IPopoverState {
@@ -56,7 +57,12 @@ export class Popover extends React.Component<IPopoverProps, IPopoverState> {
 
 	constructor (props: IPopoverProps) {
 		super(props);
-		this.state = {isMouseOver: false};
+
+		let isMouseOver = false
+		if(this.props.isMouseOver){
+			isMouseOver = this.props.isMouseOver;
+		}
+		this.state = {isMouseOver: isMouseOver};
 		this.tooltipElement = null;		
 		this.targetElement = null;
 		
@@ -314,6 +320,14 @@ export class Popover extends React.Component<IPopoverProps, IPopoverState> {
 		let childRect = targetElement.getBoundingClientRect();
 		let tooltipRect = this.tooltipElement.getBoundingClientRect();	
 		const MARGIN = 3;
+		
+		// Inversion du sens du menu dans le cas ou il ne passerait pas en bas de la page (trop haut)
+		var tab_position = position.split("-")
+		if(tab_position[0] == "bottom" && Number(screen.height-childRect.top)<(screen.height/2)){
+			if(tab_position[1] == "center"){position=EPosition.TOP_CENTER;}
+			else if(tab_position[1] == "left"){position=EPosition.TOP_LEFT;}
+			else if(tab_position[1] == "right"){position=EPosition.TOP_RIGHT;}
+		}
 
 		switch (position) {
 			case EPosition.BOTTOM_CENTER:
@@ -405,7 +419,7 @@ export class Popover extends React.Component<IPopoverProps, IPopoverState> {
 	cloneTooltip (comp: React.ReactNode): React.ReactNode {
 		if (comp) {
 			let props = {};		
-			props = {closePopover: this.hide.bind(this)};
+			//props = {closePopover: this.hide.bind(this)};
 			return React.cloneElement(comp, props);
 		} else {
 			return null;
