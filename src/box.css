@@ -3,6 +3,7 @@
 	padding:0;
 	display:flex;
 	margin:0 auto 0 auto;
+	width:100%;
 }
 
 .stk-box {
@@ -64,7 +65,7 @@
 .stk-box-heading {
 	padding: 0 20px 0 20px;
     font-size: 1em;
-    font-weight: normal;
+    font-weight: bold;
     display: flex;
     align-items: center;
     color: #000000;
@@ -72,7 +73,7 @@
     background: #FFFFFF;
     border-bottom: 1px solid #EAEAEA;
     flex: 0 0 auto;
-    background: #F5F5F5;
+    /*background: #F5F5F5;*/
 }
 
 .stk-box-heading .stk-subtle {
@@ -179,7 +180,7 @@ ul.stk-box-footer > li:not(:first-child) {
 }
 
 .stk-box-body {
-	padding:15px 20px 15px 20px;
+	/*padding:15px 20px 15px 20px;*/
 	margin:0;
 	flex: 1 1 auto;
 	overflow-y:hidden;
