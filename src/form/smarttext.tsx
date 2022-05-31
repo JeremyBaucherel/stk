@@ -8,8 +8,20 @@ import {Tooltip} from '../tooltip';
 
 export class FormValueValidator {
 	static validate_positive_int (val: string): boolean {
-		return /^[0-9]+$/.test(val);
+		if(val == ""){
+			return true;
+		}else{
+			return /^[0-9]+$/.test(val);
+		}
 	}
+	static validate_int (val: string): boolean {
+		if(val == ""){
+			return true;
+		}else{
+			return /^([+-]?[1-9]\d*|0)$/.test(val);
+		}
+	}
+
 }
 
 
@@ -20,6 +32,7 @@ export interface IFormSmartTextProps {
 	icon?: EIcon;
 	label?: string;
 	mask?: string;
+	onBlur?: {(newValue: string): void};
 	onChange?: {(newValue: string): void};
 	onKeyUp?: {(e: any): void};
 	onButtonClick?: {(): void};
@@ -27,6 +40,7 @@ export interface IFormSmartTextProps {
 	placeholder?: string;
 	value?: string;
 	disabled?: boolean;
+	mandatory?: boolean;
 }
 
 export interface IFormSmartTextState {
@@ -60,6 +74,9 @@ export class FormSmartText extends React.Component<IFormSmartTextProps, IFormSma
 			if (this.props.mask == 'int,positive') {
 				this.validator = FormValueValidator.validate_positive_int;
 			}
+			if (this.props.mask == 'int') {
+				this.validator = FormValueValidator.validate_int;
+			}
 		}
 	}
 
@@ -67,8 +84,14 @@ export class FormSmartText extends React.Component<IFormSmartTextProps, IFormSma
 		this.setState({value: newProps.value});
 	}
 
-	handleBlur (): void {
+	handleBlur (e: React.ChangeEvent<HTMLInputElement>): void {
 		this.setState({hasFocus: false});
+		if (this.validator === null || (this.validator !== null && this.validator(e.target.value))) {
+			this.setState({value: e.target.value});
+			if (this.props.onBlur) {
+				this.props.onBlur(e.target.value);
+			}
+		}
 	}
 
 	handleChange (e: React.ChangeEvent<HTMLInputElement>): void {
@@ -90,7 +113,7 @@ export class FormSmartText extends React.Component<IFormSmartTextProps, IFormSma
 		this.setState({hasFocus: true});
 	}
 
-	handleKeyUp (e: React.KeyboardEvent<HTMLInputElement>): void {
+	handleKeyUp (e:any): void {
 		if (this.props.onKeyUp) {
 			this.props.onKeyUp(e);
 		}
@@ -135,8 +158,14 @@ export class FormSmartText extends React.Component<IFormSmartTextProps, IFormSma
 		if (this.props.error) {
 			icon = EIcon.ERROR;
 		}
+
+		let style:any = {}
+		if(this.props.mandatory && this.state.value==""){ 
+			style = {backgroundColor: "#ffcccc"};
+		}
+
 		let node = (
-			<div className={inputClass}>
+			<div className={inputClass} style={style}>
 				{ icon ? (<Icon icon={icon} />) : ''}
 				{input}
 				{buttonIcon}

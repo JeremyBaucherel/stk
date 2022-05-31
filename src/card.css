@@ -31,7 +31,7 @@
 }
 
 .stk-card-shell:hover .stk-card-raisable {
-    margin:5px 10px 15px 10px;
+    /*margin:5px 10px 15px 10px;*/
     box-shadow: 0 5px 15px #E5E5E5;
 }
 

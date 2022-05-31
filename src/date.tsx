@@ -5,7 +5,7 @@ import {Data, DataCell, DataRow} from './data';
 import {EIcon, Icon} from './icon';
 import {VFlex} from './flex';
 import {EPosition, ETrigger, Popover} from './popover';
-import {PopupBody, PopupFooter} from './popup';
+import {PopupBody, PopupTitle, PopupFooter, Popup} from './popup';
 import {T} from './text';
 
 export function parseDateYMD (dateStr: string): Date {
@@ -46,7 +46,10 @@ export function formatYMD (dat: Date): string {
 export interface IDayRangePickerProps {
 	dayStart?: Date;
 	dayEnd?: Date;
+	viewButton?: boolean;
 	onChange?: (dateStart: Date, dateEnd: Date) => void;
+	onClose?: () => void;
+	popupShown?: boolean;
 }
 
 export interface IDayRangePickerState {
@@ -60,9 +63,9 @@ export class DayRangePicker extends React.Component<IDayRangePickerProps, IDayRa
 
 	constructor (props: IDayRangePickerProps) {
 		super(props);
-		
+
 		this.state = {
-			popupShown: false,
+			popupShown: this.props.popupShown !== undefined ? this.props.popupShown : false,
 			dayStart: this.props.dayStart !== undefined ? this.props.dayStart : new Date(),
 			dayEnd: this.props.dayEnd !== undefined ? this.props.dayEnd : new Date(),
 		};
@@ -72,7 +75,7 @@ export class DayRangePicker extends React.Component<IDayRangePickerProps, IDayRa
 		this.target = null;
 	}
 	
-	handleDateChange (dayStart: Date, dayEnd: Date, modified: string) {
+	handleDateChange (dayStart: Date, dayEnd: Date, modified: string): void {
 		if (dayStart != null && dayEnd == null){
 			dayEnd = new Date(dayStart.getTime());
 		} else if (dayStart == null && dayEnd != null){
@@ -91,32 +94,44 @@ export class DayRangePicker extends React.Component<IDayRangePickerProps, IDayRa
 			dayStart: dayStart,
 			dayEnd: dayEnd,
 		});
-		
+
 		if (this.props.onChange) {
 			this.props.onChange(dayStart, dayEnd);
 		}
 	}
 	
-	handleOpenPopup () {
+	handleOpenPopup (): void {
 		this.setState({popupShown: true});
 	}
 	
-	handleClosePopup () {
+	handleClosePopup (): void {
 		this.setState({popupShown: false});
+		if(this.props.onClose){
+			this.props.onClose();
+		}
 	}
 	
-	render (){
-		return (
-			<Popover width="800px" trigger={ETrigger.CLICK} position={EPosition.BOTTOM_LEFT} allowReposition={true}>
-				<Button secondary ref={(el) => {this.target=el}} onClick={this.handleOpenPopup} icon={EIcon.EVENT}>
-					<strong>{formatDBY(this.state.dayStart)}</strong>
-					<T subtle> &mdash; </T> 
-					<strong>{formatDBY(this.state.dayEnd)}</strong>
-					<Icon icon={EIcon.ARROW_DROP_DOWN} />
-				</Button>
-				<DayRangePickerPopup dayStart={this.state.dayStart} dayEnd={this.state.dayEnd} onChange={this.handleDateChange} onClose={this.handleClosePopup}/>
-			</Popover>
-		);
+
+
+	render (): React.ReactNode {
+
+		if(!this.state.popupShown){
+			return (<Popover isMouseOver={this.state.popupShown} width="800px" trigger={ETrigger.CLICK} position={EPosition.BOTTOM_LEFT} allowReposition={true}>
+								<Button secondary ref={(el) => {this.target=el}} onClick={this.handleOpenPopup} icon={EIcon.EVENT}>
+								<strong>{formatDBY(this.state.dayStart)}</strong>
+								<T subtle> &mdash; </T> 
+								<strong>{formatDBY(this.state.dayEnd)}</strong>
+								<Icon icon={EIcon.ARROW_DROP_DOWN} />
+							</Button>
+							<DayRangePickerPopup dayStart={this.state.dayStart} dayEnd={this.state.dayEnd} onChange={this.handleDateChange} onClose={this.handleClosePopup} viewButton={this.props.viewButton}/>
+						</Popover>);
+		}else{
+			return (<Popup onBlanketClick={(e) => {}} width="800px" height="400px">
+					<PopupBody style={{display: "block"}}>
+					<DayRangePickerPopup dayStart={this.state.dayStart} dayEnd={this.state.dayEnd} onChange={this.handleDateChange} onClose={this.handleClosePopup} viewButton={this.props.viewButton}/>
+					</PopupBody>
+				</Popup>);
+		}
 	}
 }
 
@@ -168,7 +183,7 @@ class Calendar extends React.Component<IDayRangePickerCalendarProps, IDayRangePi
 		} else if (props.month) {
 			return props.month;
 		} else {
-			return new Date().getMonth();
+			return new Date().getMonth()+1;
 		}
 	}
 
@@ -188,7 +203,7 @@ class Calendar extends React.Component<IDayRangePickerCalendarProps, IDayRangePi
 		} else {
 			this.setState({
 				year: new Date().getFullYear(),
-				month: new Date().getMonth(),
+				month: new Date().getMonth() + 1,
 				selectedDay: undefined,
 			});
 		}
@@ -252,9 +267,13 @@ class Calendar extends React.Component<IDayRangePickerCalendarProps, IDayRangePi
 		}
 	}
 
+
+
 	render (): React.ReactNode {		
 		if (this.state.year !== undefined && this.state.month !== undefined) {
+
 			var firstDayOfMonth = new Date(this.state.year, this.state.month - 1, 1);
+
 			var weeks = [];
 			var days = [];
 			var firstDayOfWeek = firstDayOfMonth.getDay() - 1;
@@ -353,6 +372,7 @@ export interface IDayRangePickerPopupProps {
 	dayEnd: Date;
 	onChange?: (dateStart: Date, dateEnd: Date, itemChanged: string) => void;
 	onClose?: () => void;
+	viewButton?: boolean;
 }
 
 export interface IDayRangePickerPopupState {
@@ -469,8 +489,7 @@ export class DayRangePickerPopup extends React.Component<IDayRangePickerPopupPro
 		dayStart.setDate(dayStart.getDate() - 7);
 		
 		let dayEnd = new Date();
-		dayEnd.setDate(dayStart.getDate() + 6);
-		
+
 		this.setState({dayStart: dayStart, dayEnd: dayEnd});
 	}
 	
@@ -479,7 +498,6 @@ export class DayRangePickerPopup extends React.Component<IDayRangePickerPopupPro
 		dayStart.setDate(dayStart.getDate() - 30);
 		
 		let dayEnd = new Date();
-		dayEnd.setDate(new Date().getDate() - 1);
 
 		this.setState({dayStart: dayStart, dayEnd: dayEnd});
 	}
@@ -500,24 +518,34 @@ export class DayRangePickerPopup extends React.Component<IDayRangePickerPopupPro
 	}
 	
 	render (): React.ReactNode {
+		var buttonfiltre: React.ReactNode;
+		var displayButtonFiltre = true;
+		if(this.props.viewButton !== undefined){
+			displayButtonFiltre = this.props.viewButton;
+		}
+
+		if(displayButtonFiltre){
+			buttonfiltre = (<DataCell size={2}>
+				<VFlex>	
+					<Button flat onClick={this.handleSelectThisWeek}>Cette semaine</Button>
+					<Button flat onClick={this.handleSelectLastWeek}>Semaine dernière</Button>
+					<Button flat onClick={this.handleSelectLast7Days}>7 derniers jours</Button>
+					<p />
+					<Button flat onClick={this.handleSelectThisMonth}>Ce mois-ci</Button>
+					<Button flat onClick={this.handleSelectLastMonth}>Mois dernier</Button>
+					<Button flat onClick={this.handleSelectLast30Days}>30 derniers jours</Button>
+					<p/>
+					<Button flat onClick={this.handleSelectThisYear}>{new Date().getFullYear()}</Button>
+				</VFlex>
+			</DataCell>);
+		}
+
 		return (
 			<div>
 				<PopupBody>
 					<Data>
 						<DataRow>
-							<DataCell size={2}>
-								<VFlex>
-									<Button flat onClick={this.handleSelectThisWeek}>Cette semaine</Button>
-									<Button flat onClick={this.handleSelectLastWeek}>Semaine dernière</Button>
-									<Button flat onClick={this.handleSelectLast7Days}>7 derniers jours</Button>
-									<p />
-									<Button flat onClick={this.handleSelectThisMonth}>Ce mois-ci</Button>
-									<Button flat onClick={this.handleSelectLastMonth}>Mois dernier</Button>
-									<Button flat onClick={this.handleSelectLast30Days}>30 derniers jours</Button>
-									<p/>
-									<Button flat onClick={this.handleSelectThisYear}>{new Date().getFullYear()}</Button>
-								</VFlex>
-							</DataCell>
+							{buttonfiltre}
 							<DataCell size={5}>
 								<Calendar
 									selectedDay={this.state.dayStart}
@@ -547,8 +575,7 @@ export class DayRangePickerPopup extends React.Component<IDayRangePickerPopupPro
 export interface IDayPickerPopupProps {
 	selectedDay?: Date;
 	onClose?: () => void;
-	onSelectDay?: (dat: Date) => void;
-	closePopover?: {(): void};
+	onSelectDay?: (dat: Date|undefined) => void;
 }
 
 export interface IDayPickerPopupState {
@@ -562,7 +589,7 @@ export class DayPickerPopup extends React.Component<IDayPickerPopupProps, IDayPi
 		super(props);
 		
 		this.state = {
-			date: this.props.selectedDay ? this.props.selectedDay : new Date
+			date: this.props.selectedDay ? this.props.selectedDay : new Date()
 		};
 		
 		this.handleClose = this.handleClose.bind(this);
@@ -572,17 +599,21 @@ export class DayPickerPopup extends React.Component<IDayPickerPopupProps, IDayPi
 	}
 	
 	handleClose (): void {
-		if (this.props.closePopover) {
-			this.props.closePopover();
+		if (this.props.onClose) {
+			this.props.onClose();
 		}
 	}
 
 	handleValidate (): void {
-		if (this.props.onSelectDay && this.state.date !== undefined) {
-			this.props.onSelectDay(this.state.date);
+		if (this.props.onSelectDay) {
+			if(this.state.date !== undefined){
+				this.props.onSelectDay(this.state.date);
+			}else{
+				this.props.onSelectDay(undefined);
+			}
 		}
-		if (this.props.closePopover) {
-			this.props.closePopover();
+		if (this.props.onClose) {
+			this.props.onClose();
 		}
 	}
 	
@@ -600,8 +631,8 @@ export class DayPickerPopup extends React.Component<IDayPickerPopupProps, IDayPi
 		if (this.props.onSelectDay) {
 			this.props.onSelectDay(day);
 		}
-		if (this.props.closePopover) {
-			this.props.closePopover();
+		if (this.props.onClose) {
+			this.props.onClose();
 		}
 	}
 	
@@ -624,8 +655,10 @@ export class DayPickerPopup extends React.Component<IDayPickerPopupProps, IDayPi
 }
 
 export interface IDayPickerProps {
-	onChange?: (dat: Date) => void;
+	onChange?: (dat: Date|undefined) => void;
+	onClose?: () => void;
 	value?: Date;
+	popupShown?: boolean;
 }
 
 export interface IDayPickerState {
@@ -637,10 +670,10 @@ export class DayPicker extends React.Component<IDayPickerProps, IDayPickerState>
 
 	constructor (props: IDayPickerProps) {
 		super(props);
-		
+
 		this.state = {
 			value: this.props.value,
-			popupShown: false,
+			popupShown: this.props.popupShown !== undefined ? this.props.popupShown : false,
 		}
 		this.handleNextDay = this.handleNextDay.bind(this);
 		this.handlePreviousDay = this.handlePreviousDay.bind(this);
@@ -652,18 +685,23 @@ export class DayPicker extends React.Component<IDayPickerProps, IDayPickerState>
 	}
 	
 	handleNextDay (): void {
-		var dat = this.state.value;
-		dat.setTime(this.state.value.getTime() + 86400000);
-		this.setState({
-			value: dat
-		});
-		if (this.props.onChange) {
-			this.props.onChange(dat);
+		if(this.state.value){
+			var dat = this.state.value;
+			dat.setTime(this.state.value.getTime() + 86400000);
+			this.setState({
+				value: dat
+			});
+			if (this.props.onChange) {
+				this.props.onChange(dat);
+			}
 		}
 	}
 	
 	handleClosePopup (): void {
 		this.setState({popupShown: false});
+		if(this.props.onClose){
+			this.props.onClose();
+		}
 	}
 	
 	handleOpenPopup (): void {
@@ -671,21 +709,28 @@ export class DayPicker extends React.Component<IDayPickerProps, IDayPickerState>
 	}
 	
 	handlePreviousDay (): void {
-		var dat = this.state.value;
-		dat.setTime(this.state.value.getTime() - 86400000);
-		this.setState({
-			value: dat
-		});
+		if(this.state.value){
+			var dat = this.state.value;
+			dat.setTime(this.state.value.getTime() - 86400000);
 
-		if (this.props.onChange) {
-			this.props.onChange(dat);
+			this.setState({
+				value: dat
+			});
+	
+			if (this.props.onChange) {
+				this.props.onChange(dat);
+			}
 		}
 	}
 	
-	handleSelectDay (dat: Date): void {
+	handleSelectDay (dat: Date|undefined): void {
 		this.setState({value: dat, popupShown: false});
-		if (this.props.onChange && dat.getTime() != this.state.value.getTime()){
-			this.props.onChange(dat);
+		if(this.props.onChange){
+			if (dat!=undefined){
+				this.props.onChange(dat);
+			}else{
+				this.props.onChange(undefined);
+			}
 		}
 	}
 	
@@ -702,15 +747,23 @@ export class DayPicker extends React.Component<IDayPickerProps, IDayPickerState>
 	}
 	
 	render (): React.ReactNode {
-		return (
-			<Popover trigger={ETrigger.CLICK} position={EPosition.BOTTOM_LEFT} width="300px" allowReposition={true}>
-				<Button secondary icon={EIcon.EVENT}>
-					<strong>{this.formatValue()}</strong>
-					<Icon icon={EIcon.ARROW_DROP_DOWN} />
-				</Button>
-				<DayPickerPopup onClose={this.handleClosePopup} selectedDay={this.state.value} onSelectDay={this.handleSelectDay} />
-			</Popover>
-		);
+		if(!this.state.popupShown){
+			return (
+				<Popover trigger={ETrigger.CLICK} position={EPosition.BOTTOM_LEFT} width="300px" allowReposition={true}>
+					<Button secondary icon={EIcon.EVENT} onClick={() => this.setState({popupShown:true})}>
+						<strong>{this.formatValue()}</strong>
+						<Icon icon={EIcon.ARROW_DROP_DOWN} />
+					</Button>
+					<DayPickerPopup onClose={this.handleClosePopup} selectedDay={this.state.value} onSelectDay={this.handleSelectDay} />
+				</Popover>
+			);
+		}else{
+			return (<Popup onBlanketClick={(e) => {}} width="800px" height="400px">
+						<PopupBody style={{display: "block"}}>
+							<DayPickerPopup onClose={this.handleClosePopup} selectedDay={this.state.value} onSelectDay={this.handleSelectDay} />
+						</PopupBody>
+					</Popup>);
+		}
 	}
 }
 
