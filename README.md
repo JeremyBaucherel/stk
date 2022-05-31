@@ -1,6 +1,8 @@
 The Software Tool Kit (STK) is a set of React components used to build the SAGA web interface.
 
-![Exemple screenshot]<img src="https://github.com/JeremyBaucherel/stk/blob/main/doc/images/symphonie-screenshot.png?raw=true">
+<img src="https://github.com/JeremyBaucherel/stk/blob/main/doc/images/symphonie-screenshot.png?raw=true">
+
+https://github.com/JeremyBaucherel/stk/blob/main/doc/images/symphonie-screenshot.png
 
 ## Use as library
 
