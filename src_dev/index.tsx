@@ -945,7 +945,7 @@ class TestApp extends React.Component<TestAppProps, TestAppState> {
 
     render () {
         let pageTitle = (<h1>STK : Symphonie Tool Kit</h1>)
-        let pageButtons = (<Button secondary icon={EIcon.HELP_OUTLINE} to={"https://github.com/JeremyBaucherel/stk"} />);
+        let pageButtons = (<Button secondary icon={EIcon.HELP_OUTLINE} to={"https://gheprivate.eu.airbus.corp/ASGARD/stk"} />);
 
         return (
             <BrowserRouter>

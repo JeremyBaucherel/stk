@@ -21,5 +21,6 @@ export * from './src/table';
 export * from './src/tag';
 export * from './src/text';
 export * from './src/timeline';
+export * from './src/toolbar';
 export * from './src/tooltip';
 export * from './src/tree';
