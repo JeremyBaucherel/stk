@@ -19,9 +19,6 @@ export class SpreadsheetColumn
     type_: string;
     sortable?: boolean;
     filtrable?: boolean;
-
-    sortable_defaut?:any;
-    filter_default?: any;
     multiSelection?: boolean;
     edit?: boolean;
     mandatory?: boolean;
@@ -38,8 +35,6 @@ export class SpreadsheetColumn
         type_: string, 
         sortable: boolean = false, 
         filtrable: boolean = false, 
-        sortable_defaut: any = "", 
-        filter_default: any = "", 
         multiSelection: boolean = false, 
         edit: boolean = false, 
         mandatory: boolean = false,
@@ -52,8 +47,6 @@ export class SpreadsheetColumn
         this.type_ = type_;
         this.sortable = sortable;
         this.filtrable = filtrable;
-        this.sortable_defaut = sortable_defaut;
-        this.filter_default = filter_default;
         this.multiSelection = multiSelection;
         this.edit = edit;
         this.mandatory = mandatory;
@@ -70,6 +63,7 @@ interface ISpreadsheetProps {
     onSaveCell?: any;
     onAddCell?: any;
     onDelCell?: any;
+    sortable_default?: string[];
     filter_default?: any;
     selectedRow?:any;
     infoSupp?:boolean;
@@ -98,11 +92,13 @@ export class Spreadsheet extends React.Component<ISpreadsheetProps, ISpreadsheet
         super(props);
 
         let filter_default = this.props.filter_default;
-        
         if(filter_default==undefined){filter_default="";}
 
+        let sortable_default = this.props.sortable_default;
+        if(sortable_default==undefined){sortable_default=[];}
+
         this.state = {
-            sort: [], 
+            sort: sortable_default,
             filter: filter_default,
             affCal:{},
             editCell:[],
@@ -1031,16 +1027,13 @@ export class Spreadsheet extends React.Component<ISpreadsheetProps, ISpreadsheet
         newsort = Array.prototype.slice.call(this.state.sort);
         let found = false;
 
-        for(var element in newsort)
-        {
+        for(var element in newsort){
             let sortColumnName = this.state.sort[element];
             let order = 1;
             if (sortColumnName.substr(0,1)== "-") {
                 newsort = [];
                 found = true;
                 break;
-                sortColumnName = sortColumnName.substr(1);
-                order = -1;
             }
 
             if(sortColumnName == columnName)
@@ -1057,7 +1050,7 @@ export class Spreadsheet extends React.Component<ISpreadsheetProps, ISpreadsheet
         if (!found) {
             newsort.push(columnName);
         }
-
+        console.log(newsort)
         this.setState({sort: newsort});
     }
 
