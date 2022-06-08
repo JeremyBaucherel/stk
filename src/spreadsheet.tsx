@@ -243,7 +243,6 @@ export class Spreadsheet extends React.Component<ISpreadsheetProps, ISpreadsheet
     */
     handleFilterMenu(value: string, columnName: string, tableau_item:any): void
     {
-        
         let newfilter:any = this.state.filter;
         
         var liste_val: string[] = [];
@@ -260,18 +259,20 @@ export class Spreadsheet extends React.Component<ISpreadsheetProps, ISpreadsheet
         if(!newfilter){
             newfilter = {};
         }
-        for(var lval in liste_val)
-        {
-            if(tableau_item[liste_val[lval]] != undefined)
-            { 
-                var newvalue:string = tableau_item[liste_val[lval]].text;
-
-                if (newfilter[columnName] == undefined)
-                {
-                    newfilter[columnName]=[newvalue];
-                }else
-                {
-                    newfilter[columnName].push(newvalue);
+        for(var lval in liste_val){
+            for(var v in tableau_item){
+                if(tableau_item[v].id == liste_val[lval])
+                { 
+                    var newvalue:string = tableau_item[v].text;
+    
+                    if (newfilter[columnName] == undefined)
+                    {
+                        newfilter[columnName]=[newvalue];
+                    }else
+                    {
+                        newfilter[columnName].push(newvalue);
+                    }
+                    break;
                 }
             }
         }
@@ -727,16 +728,14 @@ export class Spreadsheet extends React.Component<ISpreadsheetProps, ISpreadsheet
             var tableau_item:any = {};
 
             tableau_item = this.tableau_item_filter(column.name, rows);
-            
             /* Ajout du 29-04-2022 : Tri du menu de sélection par ordre alphabétique et non par id de la ligne */
-            /*tableau_item.sort((tab1:any, tab2:any) => {
+            tableau_item.sort((tab1:any, tab2:any) => {
                 return this.compareObjects(tab1, tab2, 'text')
               })
-            console.log(tableau_item);*/
+            //console.log(tableau_item);
             /* Fin ajout */
 
             let value_select:any = [];
-  
             // Si on a des filtres
             if(this.state.filter[column.name] != undefined) {
                 // Parcours les Items de la liste
