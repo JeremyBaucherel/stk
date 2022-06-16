@@ -397,7 +397,10 @@ export class Spreadsheet extends React.Component<ISpreadsheetProps, ISpreadsheet
         }else if(columnType == "date"){
             // Changement de format pour enregistrement
             value = this.formatDate(value)
+        }else if(columnType == "liste"){
+            value = value[0];
         }
+
 
         // Récupération de la ligne index correspondant à l'id dans le tableau de départ
         var index = -1;
@@ -1337,42 +1340,46 @@ export class Spreadsheet extends React.Component<ISpreadsheetProps, ISpreadsheet
 
             for (let i = 0; i < this.props.columns.length; ++i) {
                 let column = this.props.columns[i];
-                let mandatory:boolean|undefined = column.mandatory;
-                let valeurAff:any = "";
-
-                // Remplacement par les valeurs en cours d'edit
-                if(Object.keys(this.state.addRow).length !== 0){
-                    if(this.state.addRow[column.name]){
-                        valeurAff = this.state.addRow[column.name];
-
-                        // Si on a complété la cellule on retire le fond de couleur
-                        if(valeurAff != ""){mandatory = false;}
-                    }
-                }
-
                 let formEdit: React.ReactNode;
-                if(column.type_ == "boolean"){
-                    formEdit = (<ToggleSwitch optionLabels={["Oui","Non"]} id={column.name+"-0"} checked={valeurAff} onChange={(value:boolean) => this.handleBlurCellAdd(value, column.name)}/>);
-                }else if(column.type_ == "text"){
-                    formEdit = (<FormSmartText mandatory={mandatory} onBlur={(value)=>this.handleBlurCellAdd(value, column.name)} value={valeurAff} />);
-                }else if(column.type_ == "date" || column.typeFiltre == "datetime"){
-                    if(valeurAff==""){valeurAff=undefined}
-                    formEdit = (<DayPicker popupShown={false} onChange={(value)=>this.handleBlurCellAdd(value, column.name, column.type_)} value={valeurAff}/>);
-                }else if(column.type_ == "liste"){
-                    formEdit = (<MenuFilter
-                        enableMultiSelection={false}  
-                        value={[valeurAff]}
-                        onSelectionChange={(value)=>this.handleBlurCellAdd(value, column.name, column.type_)}
-                        items={column.listeItems}
-                        style={{height:'200px', width:'200px', padding:'5px'}}
-                        disabled={true}
-                        mandatory={mandatory}
-                        />);
-                }else{
-                    valeurAff = this.recupTextItems(valeurAff, column.listeItems);
-                    formEdit = (<FormSmartText mask={column.type_} mandatory={mandatory} onBlur={(value)=>this.handleBlurCellAdd(value, column.name)} value={valeurAff} />);
-                }
 
+                if(column.edit){
+                    let mandatory:boolean|undefined = column.mandatory;
+                    let valeurAff:any = "";
+
+                    // Remplacement par les valeurs en cours d'edit
+                    if(Object.keys(this.state.addRow).length !== 0){
+                        if(this.state.addRow[column.name]){
+                            valeurAff = this.state.addRow[column.name];
+
+                            // Si on a complété la cellule on retire le fond de couleur
+                            if(valeurAff != ""){mandatory = false;}
+                        }
+                    }
+
+                    if(column.type_ == "boolean"){
+                        formEdit = (<ToggleSwitch optionLabels={["Oui","Non"]} id={column.name+"-0"} checked={valeurAff} onChange={(value:boolean) => this.handleBlurCellAdd(value, column.name)}/>);
+                    }else if(column.type_ == "text"){
+                        formEdit = (<FormSmartText mandatory={mandatory} onBlur={(value)=>this.handleBlurCellAdd(value, column.name)} value={valeurAff} />);
+                    }else if(column.type_ == "date" || column.typeFiltre == "datetime"){
+                        if(valeurAff==""){valeurAff=undefined}
+                        formEdit = (<DayPicker popupShown={false} onChange={(value)=>this.handleBlurCellAdd(value, column.name, column.type_)} value={valeurAff}/>);
+                    }else if(column.type_ == "liste"){
+                        formEdit = (<MenuFilter
+                            enableMultiSelection={false}  
+                            value={[valeurAff]}
+                            onSelectionChange={(value)=>this.handleBlurCellAdd(value, column.name, column.type_)}
+                            items={column.listeItems}
+                            style={{height:'200px', width:'200px', padding:'5px'}}
+                            disabled={true}
+                            mandatory={mandatory}
+                            />);
+                    }else{
+                        valeurAff = this.recupTextItems(valeurAff, column.listeItems);
+                        formEdit = (<FormSmartText mask={column.type_} mandatory={mandatory} onBlur={(value)=>this.handleBlurCellAdd(value, column.name)} value={valeurAff} />);
+                    }
+                }else{
+                    formEdit = (null);
+                }
                 cells.push(<td key={column.name+"-"+i}>
                                 {formEdit}
                             </td>);
@@ -1436,13 +1443,14 @@ export class Spreadsheet extends React.Component<ISpreadsheetProps, ISpreadsheet
             
             if(this.state.editCell[0] == row["id"] && this.state.editCell[1] == column.name && column.edit)
             {
+                valeurAff = this.recherche_children(valeurAff);
                 if(column.type_=="text")
                 {
                     cells.push(<td key={column.name+"-"+click} className={className}>
                                     <FormSmartText mandatory={column.mandatory} onKeyUp={(value)=>this.handleKeyUp(value, row["id"], column.name)} onBlur={(value)=>this.handleBlurCell(value, row["id"], column.name)}  value={valeurAff} />
                                 </td>);
                 }else if(column.type_ == "date" || column.type_ == "datetime"){
-                    if(valeurAff == undefined){
+                    if(valeurAff == undefined || valeurAff==""){
                         valeurAff = new Date();
                     }else{
                         valeurAff = new Date(valeurAff);
