@@ -400,8 +400,6 @@ export class Spreadsheet extends React.Component<ISpreadsheetProps, ISpreadsheet
         }else if(columnType == "liste"){
             value = value[0];
         }
-
-
         // Récupération de la ligne index correspondant à l'id dans le tableau de départ
         var index = -1;
         for(let l in this.props.rows){
@@ -1116,7 +1114,7 @@ export class Spreadsheet extends React.Component<ISpreadsheetProps, ISpreadsheet
         si la valeur cherchée v est un tableau => menu déroulant
             - si v est "" ou null on test si le texte est ""
             - Sinon on regarde  si texte = v pour chaque item du tableau
-
+			
         Dans le reste des cas on est dans une recherche de caractère standard
         plusieurs choix possible,
             - v commence et termine par * en contenant du texte, exemple *textecherche* alors on ne garde que textecherche
@@ -1189,7 +1187,7 @@ export class Spreadsheet extends React.Component<ISpreadsheetProps, ISpreadsheet
                         if(filterValue[lval].substr(-1) == "*" && filterValue[lval].length > 1 && filterValue[lval].substr(0,1) == "*") {
                             filterValue[lval] = filterValue[lval].substr(1, filterValue[lval].length-2)
                         }
-
+                        
                         // Si null, on recherche un texte vide
                         if (filterValue[lval] == "null") {
                             if (cellValue.toString() == "") {tabKeepRow[Number(lval)] = true;}                
@@ -1267,18 +1265,30 @@ export class Spreadsheet extends React.Component<ISpreadsheetProps, ISpreadsheet
 
                         // Si null, on recherche un texte vide
                         if (filterValue[lval] == "null") {
-                            if (cellValue.toString() == "") {tabKeepRow[Number(lval)] = true;}                
+                            if (cellValue.toString() == "") {tabKeepRow[Number(lval)] = true;}    
+                        }else if(filterValue[lval].substr(0,7) == "<=|null") {
+                            // Si le champ est une date
+                            if(!isNaN(Date.parse(cellValue))){
+                                // Test si la date est inférieur à la date demandée
+                                if(Date.parse(cellValue) <= Date.parse(filterValue[lval].substr(7))){tabKeepRow[Number(lval)] = true;}
+                            }         
                         }else if(filterValue[lval].substr(0,2) == "<=" && cellValue.length > 0) {
                             // Si le champ est une date
                             if(!isNaN(Date.parse(cellValue))){
                                 // Test si la date est inférieur à la date demandée
-                                if(Date.parse(cellValue) <= Date.parse(filterValue[lval].substr(1))){tabKeepRow[Number(lval)] = true;}
+                                if(Date.parse(cellValue) <= Date.parse(filterValue[lval].substr(2))){tabKeepRow[Number(lval)] = true;}
+                            }
+                        }else if(filterValue[lval].substr(0,7) == ">=|null") {
+                            // Si le champ est une date
+                            if(!isNaN(Date.parse(cellValue))){
+                                // Test si la date est supérieur à la date demandée
+                                if(Date.parse(cellValue) >= Date.parse(filterValue[lval].substr(7))){tabKeepRow[Number(lval)] = true;}
                             }
                         }else if(filterValue[lval].substr(0,2) == ">=" && filterValue[lval].length > 0) {
                             // Si le champ est une date
                             if(!isNaN(Date.parse(cellValue))) {
                                 // Test si la date est supérieur à la date demandée
-                                if(Date.parse(cellValue) >= Date.parse(filterValue[lval].substr(1))){tabKeepRow[Number(lval)] = true;}
+                                if(Date.parse(cellValue) >= Date.parse(filterValue[lval].substr(2))){tabKeepRow[Number(lval)] = true;}
                             }
                         // sinon on recherche la totalité de la chaine (équivalent *filterValue[lval]*)
                         }else if(filterValue[lval].substr(0,1) == "<" && cellValue.length > 0) {
@@ -1296,6 +1306,10 @@ export class Spreadsheet extends React.Component<ISpreadsheetProps, ISpreadsheet
                         // sinon on recherche la totalité de la chaine (équivalent *filterValue[lval]*)
                         }else{
                             if (cellValue.toString().toLowerCase().indexOf(filterValue[lval]) >= 0) {tabKeepRow[Number(lval)] = true;}
+                        }
+                    }else{
+                        if(filterValue[lval].substr(0,7) == ">=|null" || filterValue[lval].substr(0,7) == "<=|null"){
+                            tabKeepRow[Number(lval)] = true;
                         }
                     }
                 }
@@ -1343,40 +1357,41 @@ export class Spreadsheet extends React.Component<ISpreadsheetProps, ISpreadsheet
                 let formEdit: React.ReactNode;
 
                 if(column.edit){
-                    let mandatory:boolean|undefined = column.mandatory;
-                    let valeurAff:any = "";
+					let mandatory:boolean|undefined = column.mandatory;
+					let valeurAff:any = "";
 
-                    // Remplacement par les valeurs en cours d'edit
-                    if(Object.keys(this.state.addRow).length !== 0){
-                        if(this.state.addRow[column.name]){
-                            valeurAff = this.state.addRow[column.name];
+					// Remplacement par les valeurs en cours d'edit
+					if(Object.keys(this.state.addRow).length !== 0){
+						if(this.state.addRow[column.name]){
+							valeurAff = this.state.addRow[column.name];
 
-                            // Si on a complété la cellule on retire le fond de couleur
-                            if(valeurAff != ""){mandatory = false;}
-                        }
-                    }
+							// Si on a complété la cellule on retire le fond de couleur
+							if(valeurAff != ""){mandatory = false;}
+						}
+					}
 
-                    if(column.type_ == "boolean"){
-                        formEdit = (<ToggleSwitch optionLabels={["Oui","Non"]} id={column.name+"-0"} checked={valeurAff} onChange={(value:boolean) => this.handleBlurCellAdd(value, column.name)}/>);
-                    }else if(column.type_ == "text"){
-                        formEdit = (<FormSmartText mandatory={mandatory} onBlur={(value)=>this.handleBlurCellAdd(value, column.name)} value={valeurAff} />);
-                    }else if(column.type_ == "date" || column.typeFiltre == "datetime"){
-                        if(valeurAff==""){valeurAff=undefined}
-                        formEdit = (<DayPicker popupShown={false} onChange={(value)=>this.handleBlurCellAdd(value, column.name, column.type_)} value={valeurAff}/>);
-                    }else if(column.type_ == "liste"){
-                        formEdit = (<MenuFilter
-                            enableMultiSelection={false}  
-                            value={[valeurAff]}
-                            onSelectionChange={(value)=>this.handleBlurCellAdd(value, column.name, column.type_)}
-                            items={column.listeItems}
-                            style={{height:'200px', width:'200px', padding:'5px'}}
-                            disabled={true}
-                            mandatory={mandatory}
-                            />);
-                    }else{
-                        valeurAff = this.recupTextItems(valeurAff, column.listeItems);
-                        formEdit = (<FormSmartText mask={column.type_} mandatory={mandatory} onBlur={(value)=>this.handleBlurCellAdd(value, column.name)} value={valeurAff} />);
-                    }
+					if(column.type_ == "boolean"){
+						formEdit = (<ToggleSwitch optionLabels={["Oui","Non"]} id={column.name+"-0"} checked={valeurAff} onChange={(value:boolean) => this.handleBlurCellAdd(value, column.name)}/>);
+					}else if(column.type_ == "text"){
+						formEdit = (<FormSmartText mandatory={mandatory} onBlur={(value)=>this.handleBlurCellAdd(value, column.name)} value={valeurAff} />);
+					}else if(column.type_ == "date" || column.typeFiltre == "datetime"){
+						if(valeurAff==""){valeurAff=undefined}
+						formEdit = (<DayPicker popupShown={false} onChange={(value)=>this.handleBlurCellAdd(value, column.name, column.type_)} value={valeurAff}/>);
+					}else if(column.type_ == "liste"){
+						formEdit = (<MenuFilter
+							enableMultiSelection={false}  
+							value={[valeurAff]}
+							onSelectionChange={(value)=>this.handleBlurCellAdd(value, column.name, column.type_)}
+							items={column.listeItems}
+							style={{height:'200px', width:'200px', padding:'5px'}}
+							disabled={true}
+							mandatory={mandatory}
+							/>);
+					}else{
+						valeurAff = this.recupTextItems(valeurAff, column.listeItems);
+						formEdit = (<FormSmartText mask={column.type_} mandatory={mandatory} onBlur={(value)=>this.handleBlurCellAdd(value, column.name)} value={valeurAff} />);
+					}
+
                 }else{
                     formEdit = (null);
                 }
@@ -1443,7 +1458,7 @@ export class Spreadsheet extends React.Component<ISpreadsheetProps, ISpreadsheet
             
             if(this.state.editCell[0] == row["id"] && this.state.editCell[1] == column.name && column.edit)
             {
-                valeurAff = this.recherche_children(valeurAff);
+				valeurAff = this.recherche_children(valeurAff);
                 if(column.type_=="text")
                 {
                     cells.push(<td key={column.name+"-"+click} className={className}>
