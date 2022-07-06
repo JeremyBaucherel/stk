@@ -64,7 +64,7 @@ export class MenuFilter extends React.Component<IMenuFilterProps, IMenuFilterSta
                 }
             }
 
-            choix_defaut = tab_choix_defaut.toString();
+            choix_defaut = tab_choix_defaut.join(', ');
         }
 
         if(this.props.displayvalue){choix_defaut = this.props.displayvalue;}
